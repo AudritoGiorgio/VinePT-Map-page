@@ -10,18 +10,18 @@ const pretty = (u: string) => u.replace(/^https?:\/\//, '');
   <div class="wrap">
     <span class="eyebrow text-steel-dim" data-reveal>Open source</span>
     <h2 class="h2 mt-3 max-w-[22ch]" data-reveal>Built in the open, for the next robot in the row.</h2>
-    <div class="mt-12 grid gap-4 md:grid-cols-2">
+    <div class="mt-5 grid gap-3 md:mt-[clamp(20px,4svh,44px)] md:grid-cols-2 md:gap-4">
       {cards.map((c) => (
-        <a href={c.href} target="_blank" rel="noopener" class="group grid gap-3 rounded border border-graphite/20 p-6 transition-colors hover:border-graphite hover:bg-white md:p-8" data-reveal-stagger>
+        <a href={c.href} target="_blank" rel="noopener" class="group grid gap-2.5 rounded border border-graphite/20 p-5 transition-colors hover:border-graphite hover:bg-white md:p-7" data-reveal-stagger>
           <div class="flex items-center justify-between gap-3">
-            <h3 class="font-display text-[30px] leading-none">{c.title}</h3>
+            <h3 class="font-display text-[24px] leading-none md:text-[28px]">{c.title}</h3>
             {releaseComing && <span class="pill">Release coming</span>}
           </div>
-          <p class="text-[16px] text-body">{c.text}</p>
+          <p class="text-[14.5px] leading-[1.5] text-body md:text-[15.5px]">{c.text}</p>
           <span class="break-all font-mono text-[12.5px] text-steel-dim group-hover:text-graphite">{pretty(c.href)} <span aria-hidden="true">↗</span></span>
         </a>
       ))}
     </div>
-    {releaseComing && <p class="mt-5 text-[15px] text-steel-dim">Star or watch the repository to hear when it lands.</p>}
+    {releaseComing && <p class="mt-4 text-[14px] text-steel-dim">Star or watch the repository to hear when it lands.</p>}
   </div>
 </section>

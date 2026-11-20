@@ -17,7 +17,7 @@
     btn.classList.add('!bg-lime', '!text-graphite', '!border-lime');
     window.setTimeout(() => { btn.textContent = prev; btn.classList.remove('!bg-lime', '!text-graphite', '!border-lime'); }, 2000);
   };
-  document.getElementById('copy-bib')?.addEventListener('click', (e) => copy(document.getElementById('bib')!.textContent ?? '', e.currentTarget as HTMLElement));
+  document.getElementById('copy-bib')?.addEventListener('click', (e) => (e.preventDefault(), e.stopPropagation(), copy(document.getElementById('bib')!.textContent ?? '', e.currentTarget as HTMLElement)));
   document.querySelectorAll<HTMLButtonElement>('.copy-mail').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy!, b)));
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -7,10 +7,10 @@ const label = 'Top-down vector map of three vine rows. The canopy layer changes 
 <section id="proof" class="section bg-graphite">
   <div class="wrap">
     <div class="flex flex-wrap items-end justify-between gap-6">
-      <div class="grid max-w-[560px] gap-4">
+      <div class="grid max-w-[620px] gap-3">
         <span class="eyebrow text-steel" data-reveal>Field proof</span>
         <h2 class="h2" data-reveal>Same skeleton. Four seasons.</h2>
-        <p class="lede text-steel" data-reveal>Switch the month. The canopy changes, the mapped poles and trunks stay where they are.</p>
+        <p class="lede text-steel" data-reveal>Switch the month. The canopy changes, the mapped poles and trunks stay where they are.<span class="hidden md:inline"> Four field campaigns, February to September, on low-cost onboard hardware.</span></p>
       </div>
       <div class="seg sticky top-[72px] z-10 inline-flex gap-1 rounded border border-steel-dim bg-graphite p-1" role="group" aria-label="Field campaign month" id="season-seg">
         {months.map((m, i) => (
@@ -19,10 +19,10 @@ const label = 'Top-down vector map of three vine rows. The canopy layer changes 
       </div>
     </div>
 
-    <div class="mt-10 grid items-start gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+    <div class="snap-row mt-5 items-start md:mt-[clamp(20px,4svh,40px)] md:grid md:gap-4 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
       <figure class="m-0 rounded border border-graphite-3 bg-graphite-2">
-        <div class="hidden sm:block"><Fragment set:html={seasonMapSvg(false, label)} /></div>
-        <div class="mx-auto max-w-[360px] sm:hidden"><Fragment set:html={seasonMapSvg(true, label)} /></div>
+        <div class="hidden sm:block [&>svg]:mx-auto [&>svg]:max-h-[44svh] [&>svg]:w-full"><Fragment set:html={seasonMapSvg(false, label)} /></div>
+        <div class="mx-auto max-w-[360px] sm:hidden [&>svg]:max-h-[34svh] [&>svg]:w-full"><Fragment set:html={seasonMapSvg(true, label)} /></div>
         <figcaption class="flex flex-wrap justify-between gap-3 border-t border-graphite-3 px-4 py-3 text-[13px] text-steel">
           <span aria-live="polite" id="season-cap"><b class="font-semibold text-chalk">{months[0].name}</b> · {months[0].cap}</span>
           <span><span class="text-lime">■</span> pole &nbsp; <span class="text-chalk">●</span> trunk &nbsp; <span class="text-[#7E9460]">●</span> canopy</span>
@@ -30,7 +30,7 @@ const label = 'Top-down vector map of three vine rows. The canopy layer changes 
       </figure>
 
       <figure class="m-0 grid content-start gap-3">
-        <div class="relative aspect-[4/3] overflow-hidden rounded border border-graphite-3 bg-graphite-2">
+        <div class="relative aspect-[4/3] overflow-hidden rounded border border-graphite-3 bg-graphite-2 md:max-h-[44svh] md:w-full">
           {months.map((m, i) => (
             <img
               class="season-photo absolute inset-0 h-full w-full object-cover"
@@ -49,10 +49,6 @@ const label = 'Top-down vector map of three vine rows. The canopy layer changes 
       </figure>
     </div>
 
-    <div class="mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-graphite-3 pt-8" data-reveal>
-      <span class="font-display text-[64px] leading-[.9] text-lime md:text-[80px]">4</span>
-      <span class="max-w-[36ch] text-[18px]">field campaigns on low-cost onboard hardware, from February to September.</span>
-    </div>
   </div>
 </section>
 <script>

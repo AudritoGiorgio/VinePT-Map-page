@@ -10,7 +10,7 @@ const bib = `@inproceedings{${paper.key},
 }`;
 ---
 <section id="paper" class="light section grid-paper border-t border-graphite/10">
-  <div class="wrap grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-14">
+  <div class="wrap grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-14">
     <div data-reveal>
       <span class="eyebrow text-steel-dim">Paper</span>
       <!-- Survey-sheet title block -->
@@ -20,19 +20,25 @@ const bib = `@inproceedings{${paper.key},
         ))}
         <div class="col-span-3 border-t border-graphite px-3.5 py-2.5 text-[13px] leading-snug text-steel-dim">{conference.full}</div>
       </dl>
-      <h3 class="mt-7 font-display text-[26px] leading-[1.15] md:text-[32px]">{paper.title}</h3>
-      <p class="mt-3 text-[15px] text-steel-dim">{authorList}</p>
-      <div class="mt-7 flex flex-wrap gap-3">
+      <h3 class="mt-5 font-display text-[21px] leading-[1.2] md:text-[clamp(24px,3.6svh,30px)]">{paper.title}</h3>
+      <p class="mt-2 text-[14px] text-steel-dim">{authorList}</p>
+      <div class="mt-5 flex flex-wrap gap-3">
         <a class="btn btn-dark btn-round" href={links.arxiv} target="_blank" rel="noopener">arXiv 2603.05070 <span aria-hidden="true">↗</span></a>
         <a class="btn btn-ghost-light btn-round bg-chalk" href={links.pdf} target="_blank" rel="noopener">PDF</a>
       </div>
     </div>
-    <div class="min-w-0 rounded bg-graphite text-[#D7DADB]" data-reveal>
-      <div class="flex items-center justify-between border-b border-graphite-3 px-4 py-2.5 text-[12px] text-steel">
-        <span>BibTeX</span>
-        <button type="button" id="copy-bib" class="rounded border border-steel-dim px-3 py-1 text-[12px] font-semibold text-chalk hover:border-chalk">Copy</button>
-      </div>
-      <pre id="bib" class="whitespace-pre-wrap break-words p-4 font-mono text-[12.5px] leading-[1.65] md:p-5"><code>{bib}</code></pre>
-    </div>
+    <details id="bib-box" class="exp min-w-0 rounded bg-graphite text-[#D7DADB]" data-reveal>
+      <summary class="flex items-center justify-between gap-3 px-4 py-2.5 text-[12px] text-steel">
+        <span class="inline-flex items-center gap-2"><span class="plus font-mono text-[16px] text-chalk" aria-hidden="true">+</span>BibTeX</span>
+        <button type="button" id="copy-bib" class="rounded-full border border-steel-dim px-3 py-1 text-[12px] font-semibold text-chalk hover:border-chalk">Copy</button>
+      </summary>
+      <pre id="bib" class="whitespace-pre-wrap break-words border-t border-graphite-3 p-4 font-mono text-[12.5px] leading-[1.65] md:p-5"><code>{bib}</code></pre>
+    </details>
   </div>
 </section>
+
+<script>
+  // BibTeX starts open beside the title on wide screens and closed on phones.
+  const box = document.getElementById('bib-box') as HTMLDetailsElement | null;
+  if (box && window.matchMedia('(min-width: 1024px)').matches) box.open = true;
+</script>

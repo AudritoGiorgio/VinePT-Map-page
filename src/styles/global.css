@@ -14,12 +14,13 @@
 
 @layer components {
   .wrap { @apply mx-auto max-w-page px-4 sm:px-8 lg:px-16; }
-  .section { @apply py-20 md:py-28; }
+  /* Sections are sized to fit one screen: vertical rhythm follows the viewport height. */
+  .section { padding-block: clamp(36px, 6svh, 80px); }
   .light { @apply bg-chalk text-graphite; }
   .font-display { font-weight: 600; letter-spacing: -0.03em; }
   .eyebrow { @apply font-mono text-[12px] font-medium uppercase tracking-[.08em]; }
-  .h2 { @apply font-display text-[34px] leading-[1.04] tracking-[-.03em] md:text-[50px]; }
-  .lede { @apply text-[17px] leading-[1.6] md:text-[19px]; max-width: 56ch; }
+  .h2 { @apply font-display text-[28px] leading-[1.06] tracking-[-.03em] md:text-[clamp(32px,4.4svh,46px)]; }
+  .lede { @apply text-[15.5px] leading-[1.55] md:text-[17px]; max-width: 56ch; }
 
   .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent px-5 py-3 text-[15px] font-semibold leading-tight transition-colors; }
   .btn-primary { @apply bg-lime text-graphite hover:bg-lime-hi; }
@@ -65,5 +66,13 @@ video.loop { background: #2A2F34; }
 
 /* Skeleton overlay on the Idea photo */
 .sk-axis { stroke-dasharray: 900; stroke-dashoffset: 0; }
+
+/* Phone carousels: card rows scroll sideways inside their own track (the page never does) and become grids from md up. */
+@media (max-width: 767px) {
+  .snap-row { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
+  .snap-row::-webkit-scrollbar { display: none; }
+  .snap-row > * { flex: 0 0 84%; scroll-snap-align: start; min-width: 0; }
+}
+@media (min-width: 640px) and (max-width: 767px) { .snap-row { margin-inline: -32px; padding-inline: 32px; scroll-padding-inline: 32px; } .snap-row > * { flex-basis: 60%; } }
 
 [hidden] { display: none !important; }

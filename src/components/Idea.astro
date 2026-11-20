@@ -8,17 +8,17 @@ const right = [[1128, 785, 9], [978, 708, 8], [922, 660, 7], [868, 615, 6], [815
 ---
 <!-- Skeleton overlay: the real row, toned to steel, with the mapped trunks and row axis drawn on top in lime. -->
 <section id="idea" class="light section">
-  <div class="wrap grid items-center gap-12 lg:grid-cols-[minmax(0,.9fr)_minmax(0,1.2fr)] lg:gap-16">
-    <div class="grid gap-5">
+  <div class="wrap grid items-center gap-6 md:grid-cols-[minmax(0,.9fr)_minmax(0,1.2fr)] md:gap-10 lg:gap-16">
+    <div class="grid gap-3 md:gap-4">
       <span class="eyebrow text-steel-dim" data-reveal>The idea</span>
       <h2 class="h2" data-reveal>Anchor to what never moves.</h2>
       <p class="lede text-body" data-reveal>Leaves come and go. The trellis stays. Support poles and vine trunks are planted once and stand for decades, so we treat them as the vineyard's permanent skeleton and build the map on them.</p>
-      <p class="lede text-body" data-reveal>Like a person finding their way by landmarks, a robot that knows where every pole and trunk is can always tell where it stands. That skeleton becomes the reference every other machine in the vineyard can share.</p>
+      <p class="lede hidden text-body md:block" data-reveal>Like a person finding their way by landmarks, a robot that knows where every pole and trunk is can always tell where it stands. That skeleton becomes the reference every other machine in the vineyard can share.</p>
     </div>
     <figure class="m-0" id="idea-fig">
-      <div class="relative aspect-[3/2] overflow-hidden rounded bg-graphite">
+      <div class="relative mx-auto aspect-[3/2] max-h-[60svh] overflow-hidden rounded bg-graphite md:max-h-[64svh]">
         <img src={sk.src} srcset={sk.srcset} sizes="(min-width: 1024px) 56vw, 100vw" alt={sk.alt} loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover" />
-        <svg viewBox="0 0 1200 800" class="absolute inset-0 h-full w-full" aria-hidden="true">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 h-full w-full" aria-hidden="true">
           <g fill="none" stroke="#C6F432">
             <path d="M40 790 L518 328 M1200 846 L518 328" stroke-width="2" stroke-dasharray="7 8" opacity=".85" />
             <path class="sk-axis" d="M600 800 C 585 620, 545 450, 518 328" stroke-width="3.5" />
@@ -33,11 +33,11 @@ const right = [[1128, 785, 9], [978, 708, 8], [922, 660, 7], [868, 615, 6], [815
           </g>
         </svg>
       </div>
-      <figcaption class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-steel-dim">
+      <figcaption class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-steel-dim">
         <span class="inline-flex items-center gap-2"><i class="inline-block h-2.5 w-2.5 rounded-full border-2 border-[#8DB21A]"></i>Mapped trunk</span>
         <span class="inline-flex items-center gap-2"><i class="inline-block w-4 border-t-2 border-dashed border-[#8DB21A]"></i>Row line</span>
         <span class="inline-flex items-center gap-2"><i class="inline-block h-[3px] w-4 bg-[#8DB21A]"></i>Row axis</span>
-        <span>The canopy is ignored. It changes every season.</span>
+        <span class="hidden sm:inline">The canopy is ignored. It changes every season.</span>
       </figcaption>
     </figure>
   </div>
