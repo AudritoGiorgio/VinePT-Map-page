@@ -1,47 +1,44 @@
-// Third-party media. Every entry is credited in the footer automatically.
+// Media for the page. Every entry in `credits` is listed in the footer automatically.
 // Rule for this page: high resolution or vector only. Never ship low-res footage.
+// Field photos and loops live in public/media/field/ (stills at 1200 / 2400 px, loops at 1080p, silent).
 
 export type Credit = { what: string; author: string; authorUrl?: string; source: string; sourceUrl?: string; licence: string; licenceUrl?: string };
 
-const unsplash = (id: string, w: number) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
-const srcset = (id: string, widths: number[]) => widths.map((w) => `${unsplash(id, w)} ${w}w`).join(', ');
+export type Still = { name: string; widths: [number, number]; alt: string };
+export type Loop = { name: string; alt: string };
 
-export const hero = {
-  // Aerial still, shown on every screen size.
-  image: {
-    src: unsplash('photo-1635358085189-e5a6c83fe585', 2400),
-    srcset: srcset('photo-1635358085189-e5a6c83fe585', [960, 1600, 2400, 3200]),
-    alt: 'Aerial view of vineyard rows',
-  },
-  // Optional aerial video loop for desktop (muted, looped, paused under reduced motion).
-  // Leave null until a clip is chosen; only use ≥ 1920 px wide, landscape footage, ideally self-hosted in public/media/.
-  video: null as null | { src: string; type: string },
-};
+const dir = 'media/field/';
+/** `src` and `srcset` for a still, given the site base URL. */
+export const still = (base: string, s: Still) => ({
+  src: `${base}${dir}${s.name}-${s.widths[1]}.webp`,
+  srcset: s.widths.map((w) => `${base}${dir}${s.name}-${w}.webp ${w}w`).join(', '),
+  alt: s.alt,
+});
+/** `src` and `poster` for a silent loop, given the site base URL. */
+export const loop = (base: string, l: Loop) => ({ src: `${base}${dir}${l.name}.mp4`, poster: `${base}${dir}${l.name}-poster.webp`, alt: l.alt });
 
-export const rowPhoto = {
-  src: unsplash('photo-1725889276324-52de79090da0', 1600),
-  srcset: srcset('photo-1725889276324-52de79090da0', [800, 1200, 1600, 2400]),
-  alt: 'A row of vines stretching into the distance',
-};
+export const photos = {
+  pole: { name: 'pole', widths: [1200, 2400], alt: 'Close-up of a wooden trellis pole at the head of a vineyard row' },
+  mast: { name: 'mast', widths: [800, 1600], alt: "RTK-GPS antennas and sensors on the rover's mast, inside the row" },
+  row: { name: 'row', widths: [1200, 2400], alt: 'The rover far down a vineyard row, between two identical walls of vines' },
+  gnss: { name: 'gnss', widths: [800, 1200], alt: 'GNSS antenna and sensor box on the rover mast' },
+  rover: { name: 'rover', widths: [800, 1600], alt: 'The rover between two rows of vines' },
+  skeleton: { name: 'skeleton', widths: [1200, 2400], alt: 'Looking straight down a vineyard row, toned grey' },
+} satisfies Record<string, Still>;
+
+export const loops = {
+  drive: { name: 'row-drive', alt: 'The rover drives away down a vineyard row' },
+  low: { name: 'row-low', alt: 'Low tracking shot of the rover in tall grass between the vines' },
+  trellis: { name: 'trellis-pan', alt: 'Slow pan along a line of wooden trellis posts' },
+} satisfies Record<string, Loop>;
 
 export const credits: Credit[] = [
   {
-    what: 'Hero aerial photo',
-    author: 'Linda Pomerantz Zhang',
-    authorUrl: 'https://unsplash.com/@lindapz',
-    source: 'Unsplash',
-    sourceUrl: 'https://unsplash.com/photos/an-aerial-view-of-a-field-with-many-rows-of-trees-wp7wWobCWzI',
-    licence: 'Unsplash License',
-    licenceUrl: 'https://unsplash.com/license',
-  },
-  {
-    what: 'Vine row photo',
-    author: 'Jan Zinnbauer',
-    authorUrl: 'https://unsplash.com/@jan_zinnbauer',
-    source: 'Unsplash',
-    sourceUrl: 'https://unsplash.com/photos/a-row-of-vines-in-the-middle-of-a-field-ljDw2iWg-8c',
-    licence: 'Unsplash License',
-    licenceUrl: 'https://unsplash.com/license',
+    what: 'Field photos and video',
+    author: 'VinePT-Map authors',
+    source: 'Field campaigns',
+    licence: 'CC BY 4.0',
+    licenceUrl: 'https://creativecommons.org/licenses/by/4.0/',
   },
   {
     what: 'Field campaign frames',

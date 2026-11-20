@@ -1,36 +1,43 @@
 ---
+import { photos, still } from '../data/media';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const sk = still(base, photos.skeleton);
+// Trunk bases in the photo, in its own 1200 x 800 frame. Row lines run to the vanishing point.
+const left = [[122, 705, 9], [183, 612, 8], [215, 585, 7], [252, 560, 6], [292, 530, 5], [330, 500, 4]];
+const right = [[1128, 785, 9], [978, 708, 8], [922, 660, 7], [868, 615, 6], [815, 567, 5], [768, 540, 4]];
 ---
-<section id="idea" class="section bg-graphite">
-  <div class="wrap grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:gap-16">
-    <div class="order-2 grid gap-5 md:order-1">
-      <span class="eyebrow text-steel" data-reveal>The idea</span>
+<!-- Skeleton overlay: the real row, toned to steel, with the mapped trunks and row axis drawn on top in lime. -->
+<section id="idea" class="light section">
+  <div class="wrap grid items-center gap-12 lg:grid-cols-[minmax(0,.9fr)_minmax(0,1.2fr)] lg:gap-16">
+    <div class="grid gap-5">
+      <span class="eyebrow text-steel-dim" data-reveal>The idea</span>
       <h2 class="h2" data-reveal>Anchor to what never moves.</h2>
-      <p class="lede text-steel" data-reveal>Leaves come and go. The trellis stays. Support poles and vine trunks are planted once and stand for decades, so we treat them as the vineyard's permanent skeleton and build the map on them.</p>
-      <p class="lede" data-reveal>Like a person finding their way by landmarks, a robot that knows where every pole and trunk is can always tell where it stands. That skeleton becomes the reference every other machine in the vineyard can share.</p>
+      <p class="lede text-body" data-reveal>Leaves come and go. The trellis stays. Support poles and vine trunks are planted once and stand for decades, so we treat them as the vineyard's permanent skeleton and build the map on them.</p>
+      <p class="lede text-body" data-reveal>Like a person finding their way by landmarks, a robot that knows where every pole and trunk is can always tell where it stands. That skeleton becomes the reference every other machine in the vineyard can share.</p>
     </div>
-    <figure class="order-1 m-0 md:order-2" id="idea-fig">
-      <svg viewBox="0 0 520 300" role="img" aria-label="Side view of a vine row: the seasonal canopy is dashed, poles and trunks are solid lime" class="block h-auto w-full">
-        <line x1="10" y1="250" x2="510" y2="250" stroke="#5E676C" />
-        <g stroke="#5E676C"><line x1="40" y1="110" x2="480" y2="110" /><line x1="40" y1="160" x2="480" y2="160" /></g>
-        <g id="idea-canopy">
-          <path d="M40 160 C 70 60, 130 50, 160 100 C 190 40, 260 45, 280 100 C 310 40, 380 50, 400 100 C 430 50, 480 70, 480 160" fill="none" stroke="#9AA3A8" stroke-width="1.5" stroke-dasharray="5 6" />
-          <text x="300" y="36" fill="#9AA3A8" font-family="Instrument Sans, sans-serif" font-size="12.5">canopy · changes every season</text>
-        </g>
-        <g id="idea-skeleton" stroke="#C6F432" fill="none" stroke-linecap="round">
-          <line class="draw" style="--len:170" x1="40" y1="250" x2="40" y2="80" stroke-width="8" stroke-linecap="butt" />
-          <line class="draw" style="--len:170" x1="240" y1="250" x2="240" y2="80" stroke-width="8" stroke-linecap="butt" />
-          <line class="draw" style="--len:170" x1="480" y1="250" x2="480" y2="80" stroke-width="8" stroke-linecap="butt" />
-          <path class="draw" style="--len:95" d="M100 250 L100 175 Q100 162 92 160" stroke-width="5" />
-          <path class="draw" style="--len:95" d="M160 250 L161 172 Q162 162 170 160" stroke-width="5" />
-          <path class="draw" style="--len:95" d="M300 250 L299 174 Q298 162 290 160" stroke-width="5" />
-          <path class="draw" style="--len:95" d="M360 250 L361 170 Q362 162 370 160" stroke-width="5" />
-          <path class="draw" style="--len:95" d="M420 250 L420 176 Q420 163 412 160" stroke-width="5" />
-        </g>
-        <text x="40" y="280" fill="#C6F432" font-family="Instrument Sans, sans-serif" font-size="12.5" font-weight="600">poles + trunks · permanent skeleton</text>
-      </svg>
-      <figcaption class="mt-3 flex flex-wrap gap-5 text-[13px] text-steel">
-        <span class="inline-flex items-center gap-2"><i class="inline-block h-[3px] w-4 bg-lime"></i>Mapped landmark</span>
-        <span class="inline-flex items-center gap-2"><i class="inline-block w-4 border-t-2 border-dashed border-steel-dim"></i>Ignored, seasonal</span>
+    <figure class="m-0" id="idea-fig">
+      <div class="relative aspect-[3/2] overflow-hidden rounded bg-graphite">
+        <img src={sk.src} srcset={sk.srcset} sizes="(min-width: 1024px) 56vw, 100vw" alt={sk.alt} loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover" />
+        <svg viewBox="0 0 1200 800" class="absolute inset-0 h-full w-full" aria-hidden="true">
+          <g fill="none" stroke="#C6F432">
+            <path d="M40 790 L518 328 M1200 846 L518 328" stroke-width="2" stroke-dasharray="7 8" opacity=".85" />
+            <path class="sk-axis" d="M600 800 C 585 620, 545 450, 518 328" stroke-width="3.5" />
+          </g>
+          <g class="sk-dots" fill="rgba(198,244,50,.2)" stroke="#C6F432" stroke-width="2.5">
+            {[...left, ...right].map(([x, y, r]) => <circle cx={x} cy={y} r={r! * 1.3} />)}
+          </g>
+          <circle cx="518" cy="328" r="5" fill="#C6F432" />
+          <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="17" font-weight="500" letter-spacing="1">
+            <rect x="820" y="582" width="96" height="30" rx="3" fill="rgba(14,16,18,.82)" /><text x="834" y="603" fill="#F4F2EE">TRUNK</text>
+            <rect x="608" y="640" width="128" height="30" rx="3" fill="rgba(14,16,18,.82)" /><text x="622" y="661" fill="#F4F2EE">ROW AXIS</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-steel-dim">
+        <span class="inline-flex items-center gap-2"><i class="inline-block h-2.5 w-2.5 rounded-full border-2 border-[#8DB21A]"></i>Mapped trunk</span>
+        <span class="inline-flex items-center gap-2"><i class="inline-block w-4 border-t-2 border-dashed border-[#8DB21A]"></i>Row line</span>
+        <span class="inline-flex items-center gap-2"><i class="inline-block h-[3px] w-4 bg-[#8DB21A]"></i>Row axis</span>
+        <span>The canopy is ignored. It changes every season.</span>
       </figcaption>
     </figure>
   </div>

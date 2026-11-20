@@ -10,7 +10,7 @@ import { enables } from '../data/site';
       {enables.map((e) => (
         <article class="grid min-h-[200px] content-start gap-3 bg-chalk p-6 transition-colors hover:bg-white md:p-7" data-reveal-stagger>
           <span class="font-mono text-[11px] uppercase tracking-[.08em] text-steel-dim">{e.scope}</span>
-          <h3 class="font-serif text-[30px] leading-[1.05]">{e.title}</h3>
+          <h3 class="font-display text-[24px] leading-[1.1]">{e.title}</h3>
           <p class="text-[15.5px] text-body">{e.text}</p>
         </article>
       ))}

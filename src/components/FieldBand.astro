@@ -1,0 +1,19 @@
+---
+import Loop from './Loop.astro';
+import { loops } from '../data/media';
+---
+<!-- Ground level: a full-bleed loop from inside the row, with a film-title line. -->
+<section id="field" class="relative isolate flex min-h-[78svh] flex-col overflow-hidden bg-graphite text-chalk md:min-h-[86svh]" aria-labelledby="field-title">
+  <Loop clip={loops.drive} class="absolute inset-0 -z-20 h-full w-full" position="62% 60%" />
+  <div class="absolute inset-0 -z-10" style="background:linear-gradient(180deg,#15181B99 0%,#15181B00 26%,#15181B00 46%,#15181BD9 82%,#15181B 100%)" aria-hidden="true"></div>
+  <div class="wrap mt-auto grid w-full gap-6 pb-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-end md:gap-14 md:pb-14">
+    <div class="grid gap-4">
+      <span class="eyebrow text-steel" data-reveal>In the field</span>
+      <h2 id="field-title" class="font-display text-[38px] leading-[1.02] tracking-[-.035em] md:text-[64px]" data-reveal>Built in the row, at rover height.</h2>
+    </div>
+    <p class="max-w-[44ch] text-[16px] leading-[1.6] text-[#D7DADB] md:pb-2 md:text-[17px]" data-reveal>The robot drives the same rows from bare winter wood to harvest. Everything it needs to map them runs on board, while it drives.</p>
+    <div class="tag flex justify-between gap-4 border-t border-chalk/15 pt-3.5 text-steel md:col-span-2">
+      <span>Field footage · inter-row pass</span><span class="hidden sm:inline">Poles · Trunks · Rows</span>
+    </div>
+  </div>
+</section>
