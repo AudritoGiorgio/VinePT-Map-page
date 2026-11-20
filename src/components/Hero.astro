@@ -1,0 +1,38 @@
+---
+import { hero } from '../data/media';
+import { conference } from '../data/site';
+---
+<section id="top" class="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-graphite">
+  <div class="absolute inset-0 -z-10" aria-hidden="true">
+    <img src={hero.image.src} srcset={hero.image.srcset} sizes="100vw" alt="" class="h-full w-full object-cover" fetchpriority="high" decoding="async" />
+    {hero.video && (
+      <video id="hero-video" class="absolute inset-0 hidden h-full w-full object-cover md:block" muted loop playsinline preload="none" poster={hero.image.src}>
+        <source src={hero.video.src} type={hero.video.type} />
+      </video>
+    )}
+    <div class="absolute inset-0" style="background:linear-gradient(180deg,#15181BE6 0%,#15181B33 22%,#15181B40 45%,#15181BF2 88%,#15181B 100%)"></div>
+    <div class="absolute inset-0" style="background:radial-gradient(ellipse at 75% 25%,#C6F43214,transparent 60%)"></div>
+  </div>
+
+  <div class="wrap mt-auto grid w-full gap-6 pb-14 pt-32 md:gap-7 md:pb-20">
+    <span class="badge" data-hero><i></i>{conference.short} · {conference.city}</span>
+    <h1 class="font-serif text-[52px] leading-[.94] tracking-[-.015em] sm:text-[72px] lg:text-[104px]">
+      <span class="block" data-hero>Map the Structure.</span>
+      <em class="block text-lime" data-hero>Outlast the Seasons.</em>
+    </h1>
+    <p class="max-w-[52ch] text-[18px] leading-[1.55] text-[#D7DADB] md:text-[20px]" data-hero>
+      VinePT-Map turns a vineyard's poles and trunks into a georeferenced map robots can anchor to, and it holds from bare winter wood to full harvest canopy.
+    </p>
+    <div class="grid gap-3 sm:flex sm:flex-wrap" data-hero>
+      <a class="btn btn-primary" href="#work-with-us">Work with us <span aria-hidden="true">→</span></a>
+      <a class="btn btn-ghost-dark" href="#open-source">Code &amp; dataset</a>
+    </div>
+  </div>
+</section>
+<script>
+  const v = document.getElementById('hero-video') as HTMLVideoElement | null;
+  if (v && window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches) {
+    v.preload = 'auto';
+    v.play().catch(() => {});
+  }
+</script>

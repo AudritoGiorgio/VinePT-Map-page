@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+  body { @apply bg-graphite text-chalk font-sans antialiased; font-size: 17px; line-height: 1.6; }
+  h1, h2, h3, h4 { text-wrap: balance; font-weight: 400; }
+  p { text-wrap: pretty; }
+  ::selection { background: #C6F432; color: #15181B; }
+  :focus-visible { outline: 2px solid #C6F432; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+}
+
+@layer components {
+  .wrap { @apply mx-auto max-w-page px-4 sm:px-8 lg:px-16; }
+  .section { @apply py-20 md:py-28; }
+  .light { @apply bg-chalk text-graphite; }
+  .eyebrow { @apply text-[12px] font-semibold uppercase tracking-[.14em]; }
+  .h2 { @apply font-serif text-[38px] leading-[1.02] tracking-[-.01em] md:text-[56px]; }
+  .lede { @apply text-[17px] leading-[1.6] md:text-[19px]; max-width: 56ch; }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded border border-transparent px-5 py-3 text-[15px] font-semibold leading-tight transition-colors; }
+  .btn-primary { @apply bg-lime text-graphite hover:bg-lime-hi; }
+  .btn-ghost-dark { @apply border-steel-dim text-chalk hover:border-chalk; }
+  .btn-ghost-light { @apply border-graphite text-graphite hover:bg-graphite hover:text-chalk; }
+  .btn-dark { @apply bg-graphite text-chalk hover:bg-graphite-3; }
+
+  .badge { @apply inline-flex w-max items-center gap-2 rounded border border-steel-dim px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-[.12em] text-chalk; }
+  .badge i { @apply block h-2 w-2 rounded-full bg-lime; }
+  .pill { @apply inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[.1em] text-graphite; }
+}
+
+/* Reveal: content is visible by default. JS (GSAP) sets the start state only when motion is allowed. */
+.js-motion [data-reveal] { will-change: transform, opacity; }
+
+/* Expanders (technical detail, closed by default) */
+.exp summary { list-style: none; cursor: pointer; }
+.exp summary::-webkit-details-marker { display: none; }
+.exp .plus { transition: transform .2s ease; }
+.exp details[open] .plus { transform: rotate(45deg); }
+
+/* Season switcher */
+.season-layer { transition: opacity .6s ease; }
+.season-photo { transition: opacity .6s ease; }
+@media (prefers-reduced-motion: reduce) { .season-layer, .season-photo { transition: none; } }
+.seg button[aria-pressed='true'] { background: #C6F432; color: #15181B; }
+
+/* Idea diagram draw-in */
+.draw { stroke-dasharray: var(--len, 200); stroke-dashoffset: 0; }
+
+[hidden] { display: none !important; }

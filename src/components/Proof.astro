@@ -1,0 +1,79 @@
+---
+import { months } from '../data/site';
+import { seasonMapSvg } from '../lib/skeleton';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const label = 'Top-down vector map of three vine rows. The canopy layer changes with the selected month; poles and trunks stay fixed.';
+---
+<section id="proof" class="section bg-graphite">
+  <div class="wrap">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="grid max-w-[560px] gap-4">
+        <span class="eyebrow text-steel" data-reveal>Field proof</span>
+        <h2 class="h2" data-reveal>Same skeleton. Four seasons.</h2>
+        <p class="lede text-steel" data-reveal>Switch the month. The canopy changes, the mapped poles and trunks stay where they are.</p>
+      </div>
+      <div class="seg sticky top-[72px] z-10 inline-flex gap-1 rounded border border-steel-dim bg-graphite p-1" role="group" aria-label="Field campaign month" id="season-seg">
+        {months.map((m, i) => (
+          <button type="button" data-m={m.key} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-sm px-4 py-2 text-[13px] font-semibold uppercase tracking-[.06em] text-steel transition-colors hover:text-chalk">{m.label}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-10 grid items-start gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+      <figure class="m-0 rounded border border-graphite-3 bg-graphite-2">
+        <div class="hidden sm:block"><Fragment set:html={seasonMapSvg(false, label)} /></div>
+        <div class="mx-auto max-w-[360px] sm:hidden"><Fragment set:html={seasonMapSvg(true, label)} /></div>
+        <figcaption class="flex flex-wrap justify-between gap-3 border-t border-graphite-3 px-4 py-3 text-[13px] text-steel">
+          <span aria-live="polite" id="season-cap"><b class="font-semibold text-chalk">{months[0].name}</b> · {months[0].cap}</span>
+          <span><span class="text-lime">■</span> pole &nbsp; <span class="text-chalk">●</span> trunk &nbsp; <span class="text-[#7E9460]">●</span> canopy</span>
+        </figcaption>
+      </figure>
+
+      <figure class="m-0 grid content-start gap-3">
+        <div class="relative aspect-[4/3] overflow-hidden rounded border border-graphite-3 bg-graphite-2">
+          {months.map((m, i) => (
+            <img
+              class="season-photo absolute inset-0 h-full w-full object-cover"
+              data-month={m.key}
+              style={`opacity:${i === 0 ? 1 : 0}`}
+              src={`${base}media/seasons/${m.key}.webp`}
+              srcset={`${base}media/seasons/${m.key}-640.webp 611w, ${base}media/seasons/${m.key}.webp 1222w`}
+              sizes="(min-width: 1024px) 34vw, 100vw"
+              alt={`Onboard camera in ${m.name}: poles segmented in blue, trunks in green`}
+              loading="lazy"
+              decoding="async"
+            />
+          ))}
+        </div>
+        <figcaption class="text-[13px] leading-[1.5] text-steel">What the robot's camera sees in the same month. Poles in blue, trunks in green, found live on board.</figcaption>
+      </figure>
+    </div>
+
+    <div class="mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-2 border-t border-graphite-3 pt-8" data-reveal>
+      <span class="font-serif text-[64px] leading-[.9] text-lime md:text-[80px]">4</span>
+      <span class="max-w-[36ch] text-[18px]">field campaigns on low-cost onboard hardware, from February to September.</span>
+    </div>
+  </div>
+</section>
+<script>
+  import { months } from '../data/site';
+  const seg = document.getElementById('season-seg')!;
+  const btns = Array.from(seg.querySelectorAll<HTMLButtonElement>('button'));
+  const cap = document.getElementById('season-cap')!;
+  const set = (key: string) => {
+    const m = months.find((x) => x.key === key)!;
+    document.querySelectorAll<HTMLElement>('#proof [data-month]').forEach((el) => { el.style.opacity = el.dataset.month === key ? '1' : '0'; });
+    btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.m === key)));
+    cap.innerHTML = `<b class="font-semibold text-chalk">${m.name}</b> · ${m.cap}`;
+  };
+  btns.forEach((b, i) => {
+    b.addEventListener('click', () => set(b.dataset.m!));
+    b.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      const next = btns[(i + d + btns.length) % btns.length];
+      next.focus(); set(next.dataset.m!);
+    });
+  });
+</script>

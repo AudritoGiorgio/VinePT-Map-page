@@ -1,0 +1,41 @@
+---
+import { credits } from '../data/media';
+import { links } from '../data/site';
+---
+<footer class="bg-graphite py-16 text-[13.5px] text-steel">
+  <div class="wrap grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)]">
+    <div class="grid content-start gap-2.5">
+      <span class="font-serif text-[28px] leading-none text-chalk">VinePT-Map</span>
+      <p><a class="hover:text-chalk" href={links.pic4ser} target="_blank" rel="noopener">PIC4SeR</a> · <a class="hover:text-chalk" href={links.polito} target="_blank" rel="noopener">Politecnico di Torino</a></p>
+      <p>No cookies, no analytics.</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-left text-[13px]">
+        <caption class="sr-only">Image credits and licences</caption>
+        <thead>
+          <tr class="border-b border-graphite-3 text-[11px] uppercase tracking-[.1em] text-chalk">
+            <th class="py-2 pr-4 font-semibold">Image</th><th class="py-2 pr-4 font-semibold">Author / source</th><th class="py-2 font-semibold">Licence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {credits.map((c) => (
+            <tr class="border-b border-graphite-3 align-top">
+              <td class="py-2.5 pr-4">{c.what}</td>
+              <td class="py-2.5 pr-4">
+                {c.authorUrl ? <a class="underline-offset-4 hover:text-chalk hover:underline" href={c.authorUrl} target="_blank" rel="noopener">{c.author}</a> : c.author}
+                {' · '}
+                {c.sourceUrl ? <a class="underline-offset-4 hover:text-chalk hover:underline" href={c.sourceUrl} target="_blank" rel="noopener">{c.source}</a> : c.source}
+              </td>
+              <td class="py-2.5">{c.licenceUrl ? <a class="underline-offset-4 hover:text-chalk hover:underline" href={c.licenceUrl} target="_blank" rel="noopener">{c.licence}</a> : c.licence}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="wrap mt-10">
+    <div class="flex flex-wrap justify-between gap-3 border-t border-graphite-3 pt-5 text-[12.5px] text-steel-dim">
+      <span>© 2026 The authors</span><span>Built with Astro</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,97 @@
+---
+const details = [
+  {
+    id: 'perception',
+    title: 'Perception front-end',
+    body: [
+      'Every RGB-D frame goes through a YOLOv8 segmentation model fine-tuned on our multi-season dataset to find poles and trunks. BoT-SORT gives each landmark a persistent ID, so all its observations belong to one object without visual re-identification.',
+      'For each detection we keep the lowest, most rigid part of the mask and project it to 3D. Canopy, wires and depth noise are ignored.',
+    ],
+  },
+  {
+    id: 'mapping',
+    title: 'Mapping back-end',
+    body: [
+      'Observations are buffered per track and committed only when the landmark leaves the camera view, after a MAD outlier filter. A class-aware merge joins duplicates split by occlusion.',
+      'An incremental factor graph (iSAM2) jointly estimates robot poses and landmark positions from IMU preintegration, attitude and heading, RTK-GPS and bearing-range landmark factors.',
+    ],
+  },
+  {
+    id: 'platform',
+    title: 'Robot and sensor kit',
+    body: ['Clearpath Husky with an Intel i7 CPU, a RealSense D435 RGB-D camera, a MicroStrain 3DM-GX5 AHRS and RTK-GPS. Every computation runs on board.'],
+  },
+];
+---
+<section id="how-it-works" class="light section">
+  <div class="wrap">
+    <span class="eyebrow text-steel-dim" data-reveal>How it works</span>
+    <h2 class="h2 mt-3 max-w-[20ch]" data-reveal>From raw sensors to a map that stays put.</h2>
+    <p class="lede mt-5 text-steel-dim" data-reveal>A low-cost sensor kit, perception that runs live on the robot's own computer, and a map that updates while the robot drives.</p>
+
+    <!-- desktop schematic -->
+    <svg id="how-svg" class="mt-12 hidden h-auto w-full md:block" viewBox="0 0 900 250" role="img" aria-label="Schematic: sensors feed perception, perception feeds the map">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#15181B" /></marker></defs>
+      <g font-family="Instrument Sans, sans-serif">
+        <text x="20" y="20" font-size="11" font-weight="600" letter-spacing="1.3" fill="#5E676C">SENSORS</text>
+        <g font-size="14" fill="#15181B">
+          <rect x="20" y="36" width="190" height="44" fill="none" stroke="#15181B" /><text x="36" y="63">RGB-D camera</text>
+          <rect x="20" y="96" width="190" height="44" fill="none" stroke="#15181B" /><text x="36" y="123">IMU / attitude</text>
+          <rect x="20" y="156" width="190" height="44" fill="none" stroke="#15181B" /><text x="36" y="183">RTK-GPS</text>
+        </g>
+        <text x="290" y="20" font-size="11" font-weight="600" letter-spacing="1.3" fill="#5E676C">PERCEPTION</text>
+        <rect x="290" y="36" width="270" height="164" fill="#15181B" />
+        <g font-size="14" fill="#F4F2EE">
+          <text x="310" y="72">Segment poles &amp; trunks</text>
+          <text x="310" y="122">Track each landmark</text>
+          <text x="310" y="172">Localize its base point</text>
+        </g>
+        <g stroke="#5E676C"><line x1="310" y1="92" x2="540" y2="92" /><line x1="310" y1="142" x2="540" y2="142" /></g>
+        <text x="640" y="20" font-size="11" font-weight="600" letter-spacing="1.3" fill="#5E676C">MAP</text>
+        <rect x="640" y="36" width="240" height="164" fill="#15181B" />
+        <g fill="#C6F432">
+          {[62, 114, 166].map((y) => [664, 744, 824].map((x) => <rect x={x} y={y} width="7" height="7" />))}
+        </g>
+        <g fill="#9AA3A8">
+          {[66, 118, 170].map((y) => [688, 708, 728, 768, 788, 808].map((x) => <circle cx={x} cy={y} r="3" />))}
+        </g>
+        <g class="how-arrows" stroke="#15181B" stroke-width="1.5" marker-end="url(#ah)">
+          <line x1="214" y1="58" x2="284" y2="100" /><line x1="214" y1="118" x2="284" y2="118" /><line x1="214" y1="178" x2="284" y2="136" />
+          <line x1="564" y1="118" x2="634" y2="118" />
+        </g>
+        <text x="20" y="236" font-size="12.5" fill="#5E676C">Onboard, live, low-cost hardware</text>
+        <text x="640" y="236" font-size="12.5" fill="#5E676C">Georeferenced poles <tspan fill="#15181B">■</tspan> and trunks <tspan fill="#5E676C">●</tspan></text>
+      </g>
+    </svg>
+
+    <!-- mobile schematic: vertical -->
+    <ol class="mt-10 grid gap-2 text-[15px] md:hidden" aria-label="Pipeline">
+      <li class="border border-graphite p-4"><span class="eyebrow block text-steel-dim">Sensors</span>RGB-D camera · IMU · RTK-GPS</li>
+      <li class="text-center leading-none text-steel-dim" aria-hidden="true">↓</li>
+      <li class="bg-graphite p-4 text-chalk"><span class="eyebrow block text-steel">Perception</span>Segment → Track → Localize</li>
+      <li class="text-center leading-none text-steel-dim" aria-hidden="true">↓</li>
+      <li class="bg-graphite p-4 text-chalk"><span class="eyebrow block text-steel">Map</span><span class="tracking-[4px] text-lime">■ ● ● ■ ● ● ■</span></li>
+    </ol>
+
+    <div class="exp mt-12 border-t border-graphite/15">
+      {details.map((d) => (
+        <details id={d.id} class="border-b border-graphite/15">
+          <summary class="flex items-center justify-between gap-4 py-5 text-[17px] font-semibold">
+            {d.title}<span class="plus font-mono text-[20px] font-normal" aria-hidden="true">+</span>
+          </summary>
+          <div class="grid max-w-[72ch] gap-3 pb-6 text-[16px] text-body">
+            {d.body.map((p) => <p>{p}</p>)}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+<script>
+  // Deep links: #perception, #mapping, #platform open their expander.
+  const openFromHash = () => {
+    const el = location.hash ? document.getElementById(location.hash.slice(1)) : null;
+    if (el instanceof HTMLDetailsElement) el.open = true;
+  };
+  window.addEventListener('hashchange', openFromHash); openFromHash();
+</script>

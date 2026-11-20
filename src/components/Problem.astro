@@ -1,0 +1,55 @@
+---
+import { rowPhoto } from '../data/media';
+import { months } from '../data/site';
+
+// Vector strip: the same row seen from the side in four campaign months.
+function panel(m: (typeof months)[number]) {
+  const p: string[] = [];
+  const sky = { feb: '#C9CCCB', mar: '#CFDCE3', aug: '#BFD7E6', sep: '#D3D3CF' }[m.key];
+  p.push(`<rect width="160" height="150" fill="${sky}"/>`);
+  p.push(`<rect y="118" width="160" height="32" fill="${m.canopy ? '#7D8F5A' : '#8E8A6E'}"/>`);
+  p.push('<g stroke="#5E676C" stroke-width=".8"><line x1="0" y1="62" x2="160" y2="62"/><line x1="0" y1="86" x2="160" y2="86"/></g>');
+  if (!m.canopy) {
+    const canes = [[22, 40, 70], [58, 34, 64], [102, 44, 72], [138, 36, 66]];
+    canes.forEach(([x, top, mid]) => p.push(`<path d="M${x} 90 C ${x - 12} ${mid}, ${x - 6} ${top + 6}, ${x - 16} ${top} M${x} 90 C ${x + 10} ${mid}, ${x + 6} ${top + 4}, ${x + 18} ${top - 2}" fill="none" stroke="#7A6650" stroke-width="1.6"/>`));
+  }
+  if (m.buds) [[10, 48], [40, 40], [74, 58], [92, 44], [118, 52], [150, 40], [30, 66], [130, 70]].forEach(([x, y]) => p.push(`<circle cx="${x}" cy="${y}" r="2.6" fill="#8FB255"/>`));
+  if (m.canopy) p.push('<path d="M-4 96 C 4 30, 40 22, 56 44 C 70 18, 110 20, 120 42 C 136 22, 166 32, 164 96 Z" fill="#4E6538"/><path d="M8 92 C 16 46, 44 40, 60 56 C 78 36, 104 40, 116 58 C 130 42, 156 50, 156 92 Z" fill="#5E7543"/>');
+  if (m.grapes) [[30, 88], [52, 90], [84, 86], [108, 90], [134, 87]].forEach(([x, y]) => p.push(`<g fill="#5A3F68"><circle cx="${x}" cy="${y}" r="4"/><circle cx="${x + 5}" cy="${y + 2}" r="4"/><circle cx="${x + 2}" cy="${y + 7}" r="3.6"/></g>`));
+  // skeleton, always the same
+  p.push('<g fill="#15181B"><rect x="4" y="44" width="5" height="76"/><rect x="151" y="44" width="5" height="76"/></g>');
+  p.push('<g stroke="#15181B" stroke-width="4" stroke-linecap="round"><line x1="40" y1="120" x2="40" y2="88"/><line x1="80" y1="120" x2="80" y2="88"/><line x1="120" y1="120" x2="120" y2="88"/></g>');
+  return `<svg viewBox="0 10 160 120" preserveAspectRatio="xMidYMid slice" class="block h-full w-full" aria-hidden="true">${p.join('')}</svg>`;
+}
+---
+<section id="problem" class="light section">
+  <div class="wrap">
+    <span class="eyebrow text-steel-dim" data-reveal>The problem</span>
+    <h2 class="h2 mt-3 max-w-[18ch]" data-reveal>Every row looks the same. Every season looks different.</h2>
+
+    <div class="mt-12 grid gap-10 md:grid-cols-2 md:gap-8">
+      <article class="grid content-start gap-4" data-reveal>
+        <div class="aspect-[4/3] overflow-hidden rounded bg-chalk-2">
+          <img src={rowPhoto.src} srcset={rowPhoto.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={rowPhoto.alt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+        </div>
+        <h3 class="text-[21px] font-semibold">Rows that look alike</h3>
+        <p class="text-[16px] text-body">To a camera, one row is a copy of the next. Repetitive geometry gives a robot nothing unique to lock onto, so it loses track of where it is.</p>
+      </article>
+
+      <article class="grid content-start gap-4" data-reveal>
+        <div class="grid aspect-[4/3] grid-cols-2 grid-rows-2 gap-1 overflow-hidden rounded bg-chalk-2">
+          {months.map((m) => (
+            <figure class="relative m-0 min-h-0 overflow-hidden">
+              <Fragment set:html={panel(m)} />
+              <figcaption class="absolute bottom-1.5 left-1.5 rounded bg-graphite/85 px-1.5 py-0.5 font-mono text-[10.5px] text-chalk">{m.label} · {m.canopy ? (m.grapes ? 'grapes' : 'canopy') : m.buds ? 'buds' : 'bare'}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <h3 class="text-[21px] font-semibold">A vineyard that never holds still</h3>
+        <p class="text-[16px] text-body">Bare canes in February, a wall of leaves by August, grapes in September. A map built on foliage expires with the season.</p>
+      </article>
+    </div>
+
+    <p class="mt-14 max-w-[30ch] font-serif text-[30px] leading-[1.15] md:text-[36px]" data-reveal>The result: nothing stable for machines to anchor to.</p>
+  </div>
+</section>

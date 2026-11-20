@@ -1,0 +1,36 @@
+---
+import { authors, conference, links, paper } from '../data/site';
+const authorList = authors.map((a) => `${a.given} ${a.family}`).join(', ');
+const bibAuthors = authors.map((a) => `${a.family}, ${a.given}`).join(' and ');
+const bib = `@inproceedings{${paper.key},
+  title     = {${paper.title}},
+  author    = {${bibAuthors}},
+  booktitle = {${paper.booktitle}},
+  year      = {${paper.year}}
+}`;
+---
+<section id="paper" class="light section">
+  <div class="wrap grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-14">
+    <div data-reveal>
+      <span class="eyebrow text-steel-dim">Paper</span>
+      <div class="mt-5 grid max-w-[380px] grid-cols-[auto_1fr] items-center gap-x-4 gap-y-1 rounded border border-graphite px-5 py-4">
+        <span class="row-span-2 font-serif text-[44px] leading-none">IROS</span>
+        <span class="text-[11px] font-semibold uppercase tracking-[.12em]">Accepted · 2026</span>
+        <span class="text-[13px] leading-snug text-steel-dim">{conference.full}, {conference.city}</span>
+      </div>
+      <h3 class="mt-7 font-serif text-[30px] leading-[1.1] md:text-[38px]">{paper.title}</h3>
+      <p class="mt-3 text-[15px] text-steel-dim">{authorList}</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a class="btn btn-dark" href={links.arxiv} target="_blank" rel="noopener">arXiv 2603.05070 <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-ghost-light" href={links.pdf} target="_blank" rel="noopener">PDF</a>
+      </div>
+    </div>
+    <div class="min-w-0 rounded bg-graphite text-[#D7DADB]" data-reveal>
+      <div class="flex items-center justify-between border-b border-graphite-3 px-4 py-2.5 text-[12px] text-steel">
+        <span>BibTeX</span>
+        <button type="button" id="copy-bib" class="rounded border border-steel-dim px-3 py-1 text-[12px] font-semibold text-chalk hover:border-chalk">Copy</button>
+      </div>
+      <pre id="bib" class="whitespace-pre-wrap break-words p-4 font-mono text-[12.5px] leading-[1.65] md:p-5"><code>{bib}</code></pre>
+    </div>
+  </div>
+</section>

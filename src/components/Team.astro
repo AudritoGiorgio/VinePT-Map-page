@@ -1,0 +1,28 @@
+---
+import { authors, links } from '../data/site';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<section id="team" class="light section border-t border-graphite/10">
+  <div class="wrap">
+    <span class="eyebrow text-steel-dim" data-reveal>Team</span>
+    <h2 class="h2 mt-3" data-reveal>The people behind the map.</h2>
+    <ul class="mt-12 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+      {authors.map((a) => (
+        <li class="grid content-start gap-2.5" data-reveal-stagger>
+          <div class="grid aspect-square place-items-center overflow-hidden rounded bg-chalk-2 font-serif text-[44px] text-steel-dim" aria-hidden="true">
+            {a.photo ? <img src={base + a.photo} alt="" class="h-full w-full object-cover grayscale" loading="lazy" /> : `${a.given[0]}${a.family[0]}`}
+          </div>
+          <h3 class="text-[16px] font-semibold leading-tight">{a.given} {a.family}</h3>
+          {a.note && <p class="text-[13.5px] leading-snug text-graphite">{a.note}</p>}
+          <p class="text-[13px] leading-snug text-steel-dim">{a.affil}</p>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-14 flex flex-wrap items-center gap-x-10 gap-y-4 border-t border-graphite/10 pt-8">
+      <a href={links.pic4ser} target="_blank" rel="noopener" aria-label="Politecnico di Torino and PIC4SeR">
+        <img src={base + 'logos/polito-pic4ser-graphite.png'} alt="Politecnico di Torino · PIC4SeR" width="966" height="193" class="h-12 w-auto md:h-14" loading="lazy" />
+      </a>
+      <p class="max-w-[48ch] text-[14px] text-steel-dim">Department of Electronics and Telecommunications (DET) and PIC4SeR, the Interdepartmental Centre for Service Robotics, Politecnico di Torino.</p>
+    </div>
+  </div>
+</section>

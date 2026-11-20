@@ -1,0 +1,42 @@
+---
+import { nav } from '../data/site';
+---
+<header id="nav" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300">
+  <div class="wrap flex h-16 items-center gap-8">
+    <a href="#top" class="font-serif text-[24px] leading-none text-chalk">VinePT-Map</a>
+    <nav aria-label="Sections" class="ml-auto hidden gap-7 text-[14px] text-steel lg:flex">
+      {nav.map(([l, h]) => <a href={h} class="transition-colors hover:text-chalk">{l}</a>)}
+    </nav>
+    <a href="#work-with-us" class="btn btn-ghost-dark ml-auto hidden !px-3.5 !py-2 text-[13px] sm:inline-flex lg:ml-0">Work with us</a>
+    <button id="menu-btn" type="button" class="ml-auto inline-flex h-10 items-center gap-2 text-[14px] font-semibold text-chalk sm:ml-0 lg:hidden" aria-expanded="false" aria-controls="menu">
+      <span class="block h-[10px] w-[18px] border-y-[1.5px] border-current" aria-hidden="true"></span><span id="menu-label">Menu</span>
+    </button>
+  </div>
+  <nav id="menu" aria-label="Sections" class="hidden border-t border-graphite-3 bg-graphite lg:hidden">
+    <div class="wrap grid py-3 text-[17px]">
+      {nav.map(([l, h]) => <a href={h} class="border-b border-graphite-3 py-3.5 text-chalk">{l}</a>)}
+      <a href="#work-with-us" class="py-3.5 font-semibold text-lime">Work with us →</a>
+    </div>
+  </nav>
+</header>
+<script>
+  const navEl = document.getElementById('nav')!;
+  const btn = document.getElementById('menu-btn')!;
+  const label = document.getElementById('menu-label')!;
+  const menu = document.getElementById('menu')!;
+  const solid = () => {
+    const on = window.scrollY > 24 || !menu.classList.contains('hidden');
+    navEl.classList.toggle('bg-graphite', on);
+    navEl.classList.toggle('border-graphite-3', on);
+  };
+  window.addEventListener('scroll', solid, { passive: true }); solid();
+  const close = () => { menu.classList.add('hidden'); btn.setAttribute('aria-expanded', 'false'); label.textContent = 'Menu'; solid(); };
+  btn.addEventListener('click', () => {
+    const open = menu.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? 'Close' : 'Menu';
+    solid();
+  });
+  menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+</script>

@@ -1,0 +1,71 @@
+---
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource/instrument-sans/400.css';
+import '@fontsource/instrument-sans/500.css';
+import '@fontsource/instrument-sans/600.css';
+import '@fontsource/instrument-sans/700.css';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Problem from '../components/Problem.astro';
+import Idea from '../components/Idea.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import Enables from '../components/Enables.astro';
+import Proof from '../components/Proof.astro';
+import OpenSource from '../components/OpenSource.astro';
+import Team from '../components/Team.astro';
+import WorkWithUs from '../components/WorkWithUs.astro';
+import Paper from '../components/Paper.astro';
+import Footer from '../components/Footer.astro';
+import Motion from '../components/Motion.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const site = (Astro.site?.toString() ?? '').replace(/\/$/, '');
+const pageUrl = site + base;
+const title = 'VinePT-Map · Map the Structure. Outlast the Seasons.';
+const description = 'VinePT-Map maps the permanent skeleton of a vineyard, its poles and trunks, into a georeferenced map that robots and automation can anchor to in every season. IROS 2026.';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#15181B" />
+    <link rel="canonical" href={pageUrl} />
+    <link rel="icon" type="image/svg+xml" href={base + 'favicon.svg'} />
+    <link rel="icon" type="image/png" sizes="32x32" href={base + 'favicon-32.png'} />
+    <link rel="apple-touch-icon" href={base + 'apple-touch-icon.png'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={pageUrl + 'og.png'} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="VinePT-Map: Map the Structure. Outlast the Seasons. IROS 2026." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={pageUrl + 'og.png'} />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+  </head>
+  <body>
+    <a href="#problem" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-lime focus:px-3 focus:py-2 focus:text-graphite">Skip to content</a>
+    <Nav />
+    <main>
+      <Hero />
+      <Problem />
+      <Idea />
+      <HowItWorks />
+      <Enables />
+      <Proof />
+      <OpenSource />
+      <Team />
+      <WorkWithUs />
+      <Paper />
+    </main>
+    <Footer />
+    <Motion />
+  </body>
+</html>

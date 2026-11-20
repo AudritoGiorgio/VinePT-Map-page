@@ -1,0 +1,19 @@
+---
+import { enables } from '../data/site';
+---
+<section id="enables" class="light section border-t border-graphite/10">
+  <div class="wrap">
+    <span class="eyebrow text-steel-dim" data-reveal>What it enables</span>
+    <h2 class="h2 mt-3 max-w-[20ch]" data-reveal>One map. Every machine in the row.</h2>
+    <p class="lede mt-5 text-steel-dim" data-reveal>A stable skeleton map is infrastructure. Automation anchors to it instead of to the leaves. Here is what it enables.</p>
+    <div class="mt-12 grid gap-px border border-graphite/10 bg-graphite/10 sm:grid-cols-2 lg:grid-cols-3">
+      {enables.map((e) => (
+        <article class="grid min-h-[200px] content-start gap-3 bg-chalk p-6 transition-colors hover:bg-white md:p-7" data-reveal-stagger>
+          <span class="font-mono text-[11px] uppercase tracking-[.08em] text-steel-dim">{e.scope}</span>
+          <h3 class="font-serif text-[30px] leading-[1.05]">{e.title}</h3>
+          <p class="text-[15.5px] text-body">{e.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
