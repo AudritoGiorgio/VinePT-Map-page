@@ -3,12 +3,12 @@ import Loop from './Loop.astro';
 import { loops } from '../data/media';
 ---
 <!-- Horizon strip: a wide cinemascope band of the trellis line under one large line of type. -->
-<section id="horizon" class="bg-graphite pb-0 pt-20 text-chalk md:pt-28" aria-labelledby="horizon-title">
-  <div class="wrap grid gap-5 pb-10 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:items-end md:gap-14 md:pb-14">
-    <h2 id="horizon-title" class="font-display text-[40px] leading-[1] tracking-[-.04em] md:text-[76px]" data-reveal>Planted once. <span class="block text-steel-dim">Standing for decades.</span></h2>
-    <p class="max-w-[42ch] text-[16px] leading-[1.6] text-steel md:pb-2 md:text-[17px]" data-reveal>Poles and trunks are the part of the vineyard that does not change. A map built on them is worth keeping, and worth sharing between machines.</p>
+<section id="horizon" class="bg-graphite pb-0 pt-[clamp(40px,7svh,88px)] text-chalk" aria-labelledby="horizon-title">
+  <div class="wrap grid gap-3 pb-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:items-end md:gap-14 md:pb-[clamp(20px,4svh,44px)]">
+    <h2 id="horizon-title" class="font-display text-[30px] leading-[1.02] tracking-[-.04em] md:text-[clamp(40px,7svh,68px)]" data-reveal>Planted once. <span class="block text-steel-dim">Standing for decades.</span></h2>
+    <p class="max-w-[42ch] text-[15px] leading-[1.55] text-steel md:pb-2 md:text-[16.5px]" data-reveal>Poles and trunks are the part of the vineyard that does not change. A map built on them is worth keeping, and worth sharing between machines.</p>
   </div>
-  <figure class="relative m-0 aspect-[16/10] overflow-hidden sm:aspect-[21/9] lg:aspect-[3/1]">
+  <figure class="relative m-0 h-[clamp(200px,36svh,440px)] overflow-hidden">
     <Loop clip={loops.trellis} class="absolute inset-0 h-full w-full" position="50% 88%" />
     <figcaption class="wrap tag absolute inset-x-0 top-4 flex justify-between text-chalk [text-shadow:0_1px_8px_rgba(0,0,0,.5)]">
       <span>The trellis line</span><span class="hidden sm:inline">Same poles, every season</span>
