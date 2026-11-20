@@ -1,6 +1,6 @@
 # VinePT-Map project page
 
-Source of https://pic4ser.github.io/VinePT-Map-page/ (the IROS 2026 poster QR code points here, so keep the URL).
+Source of https://audritogiorgio.github.io/VinePT-Map-page/. The IROS 2026 poster QR code points to https://pic4ser.github.io/VinePT-Map-page/; to serve there, set `SITE_URL` in `astro.config.mjs` or the workflow.
 
 Astro 5 (static) · Tailwind 3 · GSAP. Deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
 
