@@ -1,5 +1,6 @@
 ---
-// Subtle reveals only: a short lift-in for content, the Idea skeleton drawing in, the How-it-works arrows.
+// Subtle reveals only: a short lift-in for content, the Idea skeleton drawing in, the How-it-works arrows,
+// and silent field loops that play only while on screen.
 // Everything is visible without JS; GSAP sets start states only when motion is allowed.
 ---
 <script>
@@ -20,6 +21,16 @@
   document.querySelectorAll<HTMLButtonElement>('.copy-mail').forEach((b) => b.addEventListener('click', () => copy(b.dataset.copy!, b)));
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Field loops: keep the poster under reduced motion; otherwise load and play in view, pause off-screen.
+  const vids = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-loop]'));
+  if (!reduce && vids.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      const v = e.target as HTMLVideoElement;
+      if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+    }), { rootMargin: '120px 0px' });
+    vids.forEach((v) => io.observe(v));
+  }
   if (!reduce) {
     gsap.registerPlugin(ScrollTrigger);
     document.documentElement.classList.add('js-motion');
@@ -38,8 +49,8 @@
     const fig = document.getElementById('idea-fig');
     if (fig) {
       const tl = gsap.timeline({ scrollTrigger: { trigger: fig, start: 'top 75%', once: true } });
-      tl.fromTo('#idea-skeleton .draw', { strokeDashoffset: (_i: number, t: Element) => getComputedStyle(t).getPropertyValue('--len') }, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut', stagger: 0.06 })
-        .to('#idea-canopy', { opacity: 0.4, duration: 0.8, ease }, 0.3);
+      tl.fromTo('#idea-fig .sk-axis', { strokeDashoffset: 900 }, { strokeDashoffset: 0, duration: 1.6, ease: 'power2.inOut' })
+        .from('#idea-fig .sk-dots circle', { scale: 0, opacity: 0, transformOrigin: 'center', transformBox: 'fill-box', duration: 0.45, ease, stagger: 0.05 }, 0.3);
     }
     const how = document.getElementById('how-svg');
     if (how) {

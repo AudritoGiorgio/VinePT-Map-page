@@ -1,0 +1,13 @@
+---
+// Silent field loop. Shows its poster until it scrolls into view; Motion.astro plays it there
+// and pauses it off-screen. Under reduced motion it stays on the poster.
+import type { Loop as LoopT } from '../data/media';
+import { loop } from '../data/media';
+interface Props { clip: LoopT; class?: string; position?: string }
+const { clip, class: cls = '', position = '50% 50%' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const l = loop(base, clip);
+---
+<video class={`loop object-cover ${cls}`} style={`object-position:${position}`} muted loop playsinline preload="none" poster={l.poster} aria-label={l.alt} data-loop>
+  <source src={l.src} type="video/mp4" />
+</video>

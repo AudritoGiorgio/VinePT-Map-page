@@ -1,38 +1,43 @@
 ---
-import { hero } from '../data/media';
+import { photos, still } from '../data/media';
 import { conference } from '../data/site';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const pole = still(base, photos.pole);
+const mast = still(base, photos.mast);
 ---
-<section id="top" class="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-graphite">
-  <div class="absolute inset-0 -z-10" aria-hidden="true">
-    <img src={hero.image.src} srcset={hero.image.srcset} sizes="100vw" alt="" class="h-full w-full object-cover" fetchpriority="high" decoding="async" />
-    {hero.video && (
-      <video id="hero-video" class="absolute inset-0 hidden h-full w-full object-cover md:block" muted loop playsinline preload="none" poster={hero.image.src}>
-        <source src={hero.video.src} type={hero.video.type} />
-      </video>
-    )}
-    <div class="absolute inset-0" style="background:linear-gradient(180deg,#15181BE6 0%,#15181B33 22%,#15181B40 45%,#15181BF2 88%,#15181B 100%)"></div>
-    <div class="absolute inset-0" style="background:radial-gradient(ellipse at 75% 25%,#C6F43214,transparent 60%)"></div>
-  </div>
-
-  <div class="wrap mt-auto grid w-full gap-6 pb-14 pt-32 md:gap-7 md:pb-20">
-    <span class="badge" data-hero><i></i>{conference.short} · {conference.city}</span>
-    <h1 class="font-serif text-[52px] leading-[.94] tracking-[-.015em] sm:text-[72px] lg:text-[104px]">
-      <span class="block" data-hero>Map the Structure.</span>
-      <em class="block text-lime" data-hero>Outlast the Seasons.</em>
-    </h1>
-    <p class="max-w-[52ch] text-[18px] leading-[1.55] text-[#D7DADB] md:text-[20px]" data-hero>
-      VinePT-Map turns a vineyard's poles and trunks into a georeferenced map robots can anchor to, and it holds from bare winter wood to full harvest canopy.
-    </p>
-    <div class="grid gap-3 sm:flex sm:flex-wrap" data-hero>
-      <a class="btn btn-primary" href="#work-with-us">Work with us <span aria-hidden="true">→</span></a>
-      <a class="btn btn-ghost-dark" href="#open-source">Code &amp; dataset</a>
+<!-- Field Notes: copy on chalk paper, the trellis pole as the hero object, the sensor mast pinned as an inset print. -->
+<section id="top" class="bg-chalk text-graphite">
+  <div class="grid min-h-[100svh] pt-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+    <div class="wrap order-2 grid w-full content-center gap-6 pb-14 pt-8 md:gap-7 lg:order-1 lg:pb-20 lg:pt-10">
+      <span class="badge" data-hero><i></i>{conference.short} · {conference.city}</span>
+      <h1 class="font-display text-[44px] leading-[1] tracking-[-.035em] sm:text-[64px] lg:text-[clamp(56px,5.1vw,88px)]">
+        <span class="block" data-hero>Map the Structure.</span>
+        <span class="block text-steel-dim" data-hero>Outlast the Seasons.</span>
+      </h1>
+      <p class="max-w-[46ch] text-[17px] leading-[1.6] text-body md:text-[18.5px]" data-hero>
+        VinePT-Map turns a vineyard's poles and trunks into a georeferenced map robots can anchor to, and it holds from bare winter wood to full harvest canopy.
+      </p>
+      <div class="flex flex-wrap gap-3" data-hero>
+        <a class="btn btn-dark btn-round" href="#work-with-us">Work with us <span class="text-lime" aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost-light btn-round" href="#open-source"><span class="font-mono text-[13px]" aria-hidden="true">&lt;/&gt;</span> Code &amp; dataset</a>
+      </div>
+      <dl class="mt-2 flex flex-wrap gap-x-9 gap-y-4 border-t border-graphite/15 pt-6" data-hero>
+        {[['What we map', 'Poles & trunks'], ['What it gives', 'Fixed anchors'], ['Built for', 'Every season']].map(([k, v]) => (
+          <div><dt class="tag text-steel-dim">{k}</dt><dd class="mt-1 text-[17px] font-medium tracking-[-.01em]">{v}</dd></div>
+        ))}
+      </dl>
     </div>
+
+    <figure class="relative order-1 m-0 mx-4 h-[56svh] overflow-hidden rounded bg-graphite-3 sm:mx-8 lg:order-2 lg:mx-0 lg:h-auto">
+      <img src={pole.src} srcset={pole.srcset} sizes="(min-width: 1024px) 52vw, 100vw" alt={pole.alt} class="absolute inset-0 h-full w-full object-cover object-[20%_50%]" fetchpriority="high" decoding="async" />
+      <div class="absolute left-[20%] top-[34%] flex -translate-x-1.5 items-center gap-2.5" data-hero>
+        <i class="block h-3 w-3 rounded-full bg-lime shadow-[0_0_0_5px_rgba(198,244,50,.3)]"></i>
+        <span class="tag rounded bg-graphite/85 px-2.5 py-1.5 text-chalk backdrop-blur">Pole · permanent</span>
+      </div>
+      <div class="absolute bottom-4 right-4 w-[54%] max-w-[300px] rounded bg-chalk p-1.5 pb-2.5 shadow-[0_18px_40px_rgba(0,0,0,.3)] sm:bottom-8 sm:right-8 sm:p-2 sm:pb-3" data-hero>
+        <img src={mast.src} srcset={mast.srcset} sizes="300px" alt={mast.alt} class="aspect-[4/3] w-full object-cover object-[30%_50%]" decoding="async" />
+        <p class="mx-1 mt-2 text-[12px] leading-snug text-body sm:text-[13px]"><b class="font-semibold text-graphite">Sensor mast.</b> RTK-GPS antennas and sensors, at canopy height inside the row.</p>
+      </div>
+    </figure>
   </div>
 </section>
-<script>
-  const v = document.getElementById('hero-video') as HTMLVideoElement | null;
-  if (v && window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)').matches) {
-    v.preload = 'auto';
-    v.play().catch(() => {});
-  }
-</script>

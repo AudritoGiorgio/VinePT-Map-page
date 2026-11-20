@@ -5,7 +5,7 @@
 @layer base {
   html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
   body { @apply bg-graphite text-chalk font-sans antialiased; font-size: 17px; line-height: 1.6; }
-  h1, h2, h3, h4 { text-wrap: balance; font-weight: 400; }
+  h1, h2, h3, h4 { text-wrap: balance; font-weight: 600; letter-spacing: -0.02em; }
   p { text-wrap: pretty; }
   ::selection { background: #C6F432; color: #15181B; }
   :focus-visible { outline: 2px solid #C6F432; outline-offset: 3px; }
@@ -16,19 +16,22 @@
   .wrap { @apply mx-auto max-w-page px-4 sm:px-8 lg:px-16; }
   .section { @apply py-20 md:py-28; }
   .light { @apply bg-chalk text-graphite; }
-  .eyebrow { @apply text-[12px] font-semibold uppercase tracking-[.14em]; }
-  .h2 { @apply font-serif text-[38px] leading-[1.02] tracking-[-.01em] md:text-[56px]; }
+  .font-display { font-weight: 600; letter-spacing: -0.03em; }
+  .eyebrow { @apply font-mono text-[12px] font-medium uppercase tracking-[.08em]; }
+  .h2 { @apply font-display text-[34px] leading-[1.04] tracking-[-.03em] md:text-[50px]; }
   .lede { @apply text-[17px] leading-[1.6] md:text-[19px]; max-width: 56ch; }
 
-  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded border border-transparent px-5 py-3 text-[15px] font-semibold leading-tight transition-colors; }
+  .btn { @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent px-5 py-3 text-[15px] font-semibold leading-tight transition-colors; }
   .btn-primary { @apply bg-lime text-graphite hover:bg-lime-hi; }
   .btn-ghost-dark { @apply border-steel-dim text-chalk hover:border-chalk; }
   .btn-ghost-light { @apply border-graphite text-graphite hover:bg-graphite hover:text-chalk; }
   .btn-dark { @apply bg-graphite text-chalk hover:bg-graphite-3; }
 
-  .badge { @apply inline-flex w-max items-center gap-2 rounded border border-steel-dim px-2.5 py-1.5 text-[11px] font-semibold uppercase tracking-[.12em] text-chalk; }
-  .badge i { @apply block h-2 w-2 rounded-full bg-lime; }
-  .pill { @apply inline-block rounded-full bg-lime px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[.1em] text-graphite; }
+  .badge { @apply inline-flex w-max items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[11.5px] font-medium uppercase tracking-[.06em]; border-color: color-mix(in srgb, currentColor 40%, transparent); }
+  .badge i { @apply block h-1.5 w-1.5 rounded-full bg-lime; box-shadow: 0 0 0 3px rgba(198, 244, 50, .3); }
+  .pill { @apply inline-block rounded-full bg-lime px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[.06em] text-graphite; }
+  .tag { @apply font-mono text-[11px] font-medium uppercase tracking-[.06em]; }
+  .btn-round { @apply rounded-full px-6; }
 }
 
 /* Reveal: content is visible by default. JS (GSAP) sets the start state only when motion is allowed. */
@@ -48,5 +51,19 @@
 
 /* Idea diagram draw-in */
 .draw { stroke-dasharray: var(--len, 200); stroke-dashoffset: 0; }
+
+/* Silent field loops: poster first, play only in view and only when motion is allowed (see Motion.astro). */
+video.loop { background: #2A2F34; }
+
+/* Paper section: survey-sheet grid paper */
+.grid-paper {
+  background-image:
+    linear-gradient(rgba(21, 24, 27, .06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 24, 27, .06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Skeleton overlay on the Idea photo */
+.sk-axis { stroke-dasharray: 900; stroke-dashoffset: 0; }
 
 [hidden] { display: none !important; }

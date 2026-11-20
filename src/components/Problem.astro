@@ -1,6 +1,8 @@
 ---
-import { rowPhoto } from '../data/media';
+import { photos, still } from '../data/media';
 import { months } from '../data/site';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const rowPhoto = still(base, photos.row);
 
 // Vector strip: the same row seen from the side in four campaign months.
 function panel(m: (typeof months)[number]) {
@@ -22,22 +24,22 @@ function panel(m: (typeof months)[number]) {
   return `<svg viewBox="0 10 160 120" preserveAspectRatio="xMidYMid slice" class="block h-full w-full" aria-hidden="true">${p.join('')}</svg>`;
 }
 ---
-<section id="problem" class="light section">
+<section id="problem" class="section bg-graphite">
   <div class="wrap">
-    <span class="eyebrow text-steel-dim" data-reveal>The problem</span>
+    <span class="eyebrow text-steel" data-reveal>The problem</span>
     <h2 class="h2 mt-3 max-w-[18ch]" data-reveal>Every row looks the same. Every season looks different.</h2>
 
     <div class="mt-12 grid gap-10 md:grid-cols-2 md:gap-8">
       <article class="grid content-start gap-4" data-reveal>
-        <div class="aspect-[4/3] overflow-hidden rounded bg-chalk-2">
-          <img src={rowPhoto.src} srcset={rowPhoto.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={rowPhoto.alt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+        <div class="aspect-[4/3] overflow-hidden rounded bg-graphite-2">
+          <img src={rowPhoto.src} srcset={rowPhoto.srcset} sizes="(min-width: 768px) 50vw, 100vw" alt={rowPhoto.alt} loading="lazy" decoding="async" class="h-full w-full object-cover object-[50%_60%]" />
         </div>
         <h3 class="text-[21px] font-semibold">Rows that look alike</h3>
-        <p class="text-[16px] text-body">To a camera, one row is a copy of the next. Repetitive geometry gives a robot nothing unique to lock onto, so it loses track of where it is.</p>
+        <p class="text-[16px] text-steel">To a camera, one row is a copy of the next. Repetitive geometry gives a robot nothing unique to lock onto, so it loses track of where it is.</p>
       </article>
 
       <article class="grid content-start gap-4" data-reveal>
-        <div class="grid aspect-[4/3] grid-cols-2 grid-rows-2 gap-1 overflow-hidden rounded bg-chalk-2">
+        <div class="grid aspect-[4/3] grid-cols-2 grid-rows-2 gap-1 overflow-hidden rounded bg-graphite-2">
           {months.map((m) => (
             <figure class="relative m-0 min-h-0 overflow-hidden">
               <Fragment set:html={panel(m)} />
@@ -46,10 +48,10 @@ function panel(m: (typeof months)[number]) {
           ))}
         </div>
         <h3 class="text-[21px] font-semibold">A vineyard that never holds still</h3>
-        <p class="text-[16px] text-body">Bare canes in February, a wall of leaves by August, grapes in September. A map built on foliage expires with the season.</p>
+        <p class="text-[16px] text-steel">Bare canes in February, a wall of leaves by August, grapes in September. A map built on foliage expires with the season.</p>
       </article>
     </div>
 
-    <p class="mt-14 max-w-[30ch] font-serif text-[30px] leading-[1.15] md:text-[36px]" data-reveal>The result: nothing stable for machines to anchor to.</p>
+    <p class="mt-14 max-w-[30ch] font-display text-[28px] leading-[1.15] md:text-[34px]" data-reveal>The result: nothing stable for machines to <span class="text-lime">anchor to.</span></p>
   </div>
 </section>

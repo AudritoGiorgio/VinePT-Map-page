@@ -13,9 +13,9 @@ export default {
         body: '#3A4146',
       },
       fontFamily: {
-        serif: ['"Instrument Serif"', '"Iowan Old Style"', 'Georgia', 'serif'],
-        sans: ['"Instrument Sans"', '"Helvetica Neue"', 'Arial', 'system-ui', 'sans-serif'],
-        mono: ['ui-monospace', '"SF Mono"', 'Menlo', 'Consolas', 'monospace'],
+        display: ['"IBM Plex Sans"', '"Helvetica Neue"', 'Arial', 'system-ui', 'sans-serif'],
+        sans: ['"IBM Plex Sans"', '"Helvetica Neue"', 'Arial', 'system-ui', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'ui-monospace', '"SF Mono"', 'Menlo', 'Consolas', 'monospace'],
       },
       maxWidth: { page: '1280px' },
     },
