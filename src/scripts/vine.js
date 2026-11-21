@@ -299,6 +299,8 @@
     for (let i = 0; i < 16; i++) drifters.push({ u: el('use', { href: LF, fill: tone(AUT[i % AUT.length]) }, airG), y0: 120 + rnd() * 520, s: 10 + rnd() * 16, sp: 120 + rnd() * 140, ph: rnd() * 10, th: rnd() });
     const birdG = el('g', { fill: 'none', stroke: '#3A3F44', 'stroke-width': 2.2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }), birds = [];
     for (let i = 0; i < 5; i++) birds.push({ p: el('path', {}, birdG), x0: rnd() * W, y: 110 + rnd() * 150, s: 7 + rnd() * 6, sp: 40 + rnd() * 30, ph: rnd() * 6, th: i / 5 });
+    // a calm sky: no sun, clouds or birds unless asked for
+    if (!opts.sky) { sunG.remove(); cloudsG.remove(); birdG.remove(); clouds.length = 0; birds.length = 0; }
     svg.appendChild(ringG);
 
     const labG = el('g', { class: 'labs' });
@@ -323,7 +325,7 @@
       const fl = L('fallen'); fallen.forEach((l) => { const k = Math.round(clamp((fl - l.th) * 8) * 50) / 50; if (k === l.last) return; l.last = k; if (k < .02) { l.u.setAttribute('display', 'none'); return; } l.u.removeAttribute('display'); l.u.setAttribute('transform', `translate(${f1(l.x)} ${f1(l.y)}) rotate(${l.rot}) scale(${f1(l.s * k)} ${f1(l.s * k * .5)})`); });
       // weather
       const wind = L('wind') * (.7 + .3 * Math.sin(time * .8)), sun = L('sun'), cl = L('clouds'), grey = L('grey');
-      sunG.setAttribute('opacity', f1(sun)); rays.setAttribute('transform', `rotate(${f1(time * 6)})`);
+      if (opts.sky) { sunG.setAttribute('opacity', f1(sun)); rays.setAttribute('transform', `rotate(${f1(time * 6)})`); }
       const cfill = mix('#FFFFFF', '#C9CDCF', grey), cshade = mix('#DCE3E8', '#A3A9AD', grey);
       clouds.forEach((c) => {
         const a = clamp((cl - c.th) * 4);
