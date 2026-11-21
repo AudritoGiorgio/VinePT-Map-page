@@ -1,36 +1,20 @@
 ---
-import { photos, still } from '../data/media';
-const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const rowPhoto = still(base, photos.row);
-// Light section. Left: five identical rows (sameness). Right: a flat vector view down the inter-row that
-// morphs through the year (mud to grass, leaves, colour, grapes) while the poles and trunks never move.
+// Light section, Almanac layout: the month list on the left, a Botanical-style view down the inter-row on the right.
+// The scene morphs continuously from February to November (src/scripts/vine.js); poles and trunks never move.
 ---
 <section id="problem" class="section pb bg-chalk text-graphite">
   <div class="wrap">
     <span class="eyebrow text-steel-dim" data-reveal>The problem</span>
     <div class="pb-grid">
       <div data-reveal>
-        <h2 class="pb-h">Every row looks the same. <span class="b">Every season looks <span class="chg">different.</span></span></h2>
-        <div class="pb-same" aria-hidden="true">
-          {[0, 1, 2, 3, 4].map(() => (
-            <figure><img src={rowPhoto.src} srcset={rowPhoto.srcset} sizes="(min-width: 768px) 10vw, 20vw" alt="" loading="lazy" decoding="async" /><figcaption class="pb-tag">Row ?</figcaption></figure>
-          ))}
-        </div>
-        <p class="pb-note">Five rows, one picture. A camera can't tell them apart.</p>
+        <h2 class="pb-h">Every season looks <span class="chg">different.</span></h2>
+        <p class="pb-sub">Bare canes in February, a wall of leaves by July, ripe grapes in September, leaf litter in November. A map built on what grows expires with the season. Only the poles and trunks stay.</p>
+        <ol class="pb-list" data-list aria-label="Jump to a month"></ol>
       </div>
-      <div class="pb-player" data-reveal>
-        <div class="pb-scene">
-          <svg id="pb-sc" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A vine row through the year: mud turns to grass, leaves grow and change colour, grapes appear and ripen. The poles and trunks never move."></svg>
-          <span class="pb-month" id="pb-month">February</span>
-          <div class="pb-read pb-tag"><span>Ground <b id="pb-r-ground">mud</b></span><span>Leaves <b id="pb-r-leaves">0</b></span><span>Grapes <b id="pb-r-grapes">none</b></span></div>
-          <span class="pb-stay pb-tag"><i></i>Poles &amp; trunks stay put</span>
-        </div>
-        <div class="pb-ticks" id="pb-ticks">
-          <button type="button" aria-label="February"><span class="bar"><b></b></span><span class="pb-tag">Feb · bare</span></button>
-          <button type="button" aria-label="March"><span class="bar"><b></b></span><span class="pb-tag">Mar · buds</span></button>
-          <button type="button" aria-label="August"><span class="bar"><b></b></span><span class="pb-tag">Aug · canopy</span></button>
-          <button type="button" aria-label="September"><span class="bar"><b></b></span><span class="pb-tag">Sep · grapes</span></button>
-        </div>
+      <div class="pb-scene" data-reveal>
+        <svg data-scene preserveAspectRatio="xMidYMid slice" role="img" aria-label="A vine row from inside the inter-row, February to November: mud turns to tall grass, shoots grow and carry leaves, grapes flower, swell, ripen and are harvested, leaves turn and fall, under sun, cloud and wind. The poles and trunks never move."></svg>
+        <span class="pb-month" data-month>February</span>
+        <span class="pb-stay pb-tag"><i></i>Poles &amp; trunks stay put</span>
       </div>
     </div>
   </div>
@@ -38,195 +22,43 @@ const rowPhoto = still(base, photos.row);
 
 <style is:global>
   #problem { --ink: #15181B; --steel-dim: #5E676C; --body: #3A4146; --chalk: #F4F2EE; --chalk-2: #E8E5DF; --lime: #C6F432; --lime-dk: #8DB21A; }
-  .pb-tag { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--steel-dim); }
-  .pb-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(24px, 4vw, 64px); align-items: center; margin-top: 14px; }
-  .pb-h { margin: 0; font-weight: 600; letter-spacing: -.035em; line-height: 1; text-wrap: balance; font-size: clamp(34px, min(4.6vw, 7.4svh), 72px); }
-  .pb-h .b { display: block; color: var(--steel-dim); }
-  .pb-h .chg { color: var(--season, var(--ink)); }
-  .pb-same { margin-top: clamp(18px, 3svh, 32px); display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .pb-same figure { margin: 0; position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 4px; }
-  .pb-same img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; filter: saturate(.85); }
-  .pb-same figure:nth-child(even) img { transform: scaleX(-1); }
-  .pb-same figcaption { position: absolute; left: 6px; bottom: 6px; background: rgba(244,242,238,.92); padding: 3px 6px; border-radius: 3px; }
-  .pb-note { margin-top: 10px; font-size: 14px; color: var(--body); }
-  .pb-player { display: grid; gap: 10px; min-width: 0; }
-  .pb-scene { position: relative; border-radius: 6px; overflow: hidden; background: #fff; border: 1px solid var(--chalk-2); }
-  .pb-scene svg { display: block; width: 100%; aspect-ratio: 16 / 10; height: auto; max-height: 56svh; }
-  .pb-month { position: absolute; left: 14px; top: 10px; text-shadow: 0 1px 0 rgba(255,255,255,.6); font-size: clamp(24px, 3.6svh, 36px); font-weight: 600; letter-spacing: -.03em; color: var(--ink); }
-  .pb-read { position: absolute; right: 10px; top: 10px; display: grid; gap: 4px; justify-items: end; }
-  .pb-read span { background: rgba(244,242,238,.92); border: 1px solid var(--chalk-2); padding: 4px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
-  .pb-read b { color: var(--ink); font-weight: 500; }
-  .pb-stay { position: absolute; right: 10px; bottom: 10px; display: inline-flex; gap: 8px; align-items: center; background: var(--ink); color: var(--chalk); padding: 6px 11px; border-radius: 999px; }
+  #problem .tag, .pb-tag { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--steel-dim); }
+  .pb-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(24px, 4vw, 64px); align-items: center; margin-top: 12px; }
+  .pb-grid > * { min-width: 0; }
+  .pb-h { margin: 0; font-weight: 600; letter-spacing: -.035em; line-height: 1; text-wrap: balance; font-size: clamp(40px, min(5.4vw, 8.6svh), 88px); max-width: 10ch; }
+  .pb-h .chg { color: var(--season, var(--ink)); transition: color .3s; }
+  .pb-sub { margin-top: 12px; font-size: 15px; line-height: 1.5; color: var(--body); max-width: 42ch; }
+  .pb-list { list-style: none; margin: clamp(12px, 2.6svh, 26px) 0 0; padding: 0; display: grid; border-top: 1px solid var(--chalk-2); }
+  .pb-list li { position: relative; display: grid; grid-template-columns: 4ch minmax(0, 1fr); gap: 14px; align-items: baseline; padding: clamp(3px, .8svh, 9px) 0; border-bottom: 1px solid var(--chalk-2); cursor: pointer; color: var(--steel-dim); transition: color .3s; font-size: clamp(13.5px, 1.85svh, 16px); }
+  .pb-list li:focus-visible { outline: 2px solid var(--lime-dk); outline-offset: 2px; }
+  .pb-list li.on { color: var(--ink); }
+  #problem .pb-list li.on .m { color: var(--season); }
+  .pb-list .prog { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--season, var(--ink)); }
+  .pb-scene { position: relative; overflow: hidden; background: #fff; aspect-ratio: 1 / 1; max-height: 76svh; width: 100%; border-radius: 6px; border: 1px solid var(--chalk-2); justify-self: end; }
+  .pb-scene svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .pb-month { position: absolute; left: 14px; top: 10px; font-weight: 600; letter-spacing: -.03em; font-size: clamp(24px, 4svh, 40px); text-shadow: 0 1px 0 rgba(255,255,255,.7); color: var(--ink); }
+  .pb-stay { position: absolute; left: 12px; bottom: 12px; display: inline-flex; gap: 8px; align-items: center; background: var(--ink); color: var(--chalk) !important; padding: 6px 11px; border-radius: 999px; }
   .pb-stay i { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); animation: pb-pulse 1.6s infinite; }
   @keyframes pb-pulse { 0% { box-shadow: 0 0 0 0 rgba(198,244,50,.7); } 100% { box-shadow: 0 0 0 10px rgba(198,244,50,0); } }
-  #pb-sc .ring { transform-box: fill-box; transform-origin: center; animation: pb-ring 2.4s ease-out infinite; }
+  #problem .ring { transform-box: fill-box; transform-origin: center; animation: pb-ring 2.4s ease-out infinite; }
   @keyframes pb-ring { 0% { transform: scale(.6); opacity: .9; } 70%, 100% { transform: scale(2.4); opacity: 0; } }
-  .pb-ticks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-  .pb-ticks button { all: unset; cursor: pointer; display: grid; gap: 6px; }
-  .pb-ticks button:focus-visible { outline: 2px solid var(--lime-dk); outline-offset: 3px; }
-  .pb-ticks .bar { height: 3px; background: var(--chalk-2); border-radius: 2px; overflow: hidden; }
-  .pb-ticks .bar b { display: block; height: 100%; width: 0; background: var(--ink); }
-  .pb-ticks .pb-tag.on { color: var(--ink); }
   @media (max-width: 760px) {
-    .pb-grid { grid-template-columns: 1fr; gap: 16px; }
-    .pb-h { font-size: clamp(30px, 8.6vw, 38px); }
-    .pb-same { gap: 4px; margin-top: 14px; }
-    .pb-same figure { aspect-ratio: 3 / 3.6; }
-    .pb-same figcaption { display: none; }
-    .pb-note { font-size: 13px; }
-    .pb-scene svg { aspect-ratio: 4 / 3.3; max-height: 40svh; }
-    .pb-read span:nth-child(3) { display: none; }
-    .pb-ticks .pb-tag { font-size: 10px; }
+    .pb-grid { grid-template-columns: 1fr; gap: 14px; }
+    .pb-h { font-size: clamp(36px, 10.4vw, 44px); max-width: none; }
+    .pb-sub { font-size: 14px; }
+    .pb-list { display: flex; overflow-x: auto; gap: 6px; border: 0; scrollbar-width: none; margin-top: 12px; }
+    .pb-list li { grid-template-columns: auto; border: 1px solid var(--chalk-2); border-radius: 999px; padding: 6px 10px; flex: none; }
+    .pb-list li .d, .pb-list .prog { display: none; }
+    .pb-list li.on { background: var(--season); border-color: var(--season); }
+    #problem .pb-list li.on .m { color: #fff; }
+    .pb-scene { max-height: 50svh; justify-self: stretch; }
+    .pb-month { font-size: 24px; }
   }
-  @media (prefers-reduced-motion: reduce) { .pb-stay i, #pb-sc .ring { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .pb-stay i, #problem .ring { animation: none; } }
 </style>
 
 <script>
-// @ts-nocheck
-
-// View from inside the inter-row, flat vector style. Built once; only colours, scales and opacities morph.
-const secEl = document.getElementById('problem');
-const NS = 'http://www.w3.org/2000/svg', svg = document.getElementById('pb-sc');
-const el = (n, a, p = svg) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
-let seed = 21; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-const lerp = (a, b, t) => a + (b - a) * t, clamp = (v) => Math.max(0, Math.min(1, v)), f1 = (n) => n.toFixed(1);
-const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
-const mix = (a, b, t) => { const A = hex(a), B = hex(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * clamp(t)).toString(16).padStart(2, '0')).join(''); };
-
-const VX = 800, VY = 455;
-// Season keyframes; every value morphs into the next month.
-const K = [
-  { name: 'February', tint: '#5E676C', sky0: '#E9ECEC', sky1: '#D7DCDB', hill: '#BFC6C9', soil0: '#8F7A5E', soil1: '#7A6449', path: '#9C866A', grass: 0, gcol: '#9A9A68', leaves: 0, lsz: .35, pal: ['#B7D274', '#A4C45E'], turn: 0, grapes: 0, gr: '#A9BE62', canes: 1, label: 'mud' },
-  { name: 'March', tint: '#6E8F2A', sky0: '#F4F7F7', sky1: '#D7E6EE', hill: '#C4D0D8', soil0: '#9A8466', soil1: '#86704F', path: '#A8946F', grass: .4, gcol: '#9DBB5C', leaves: .14, lsz: .45, pal: ['#C2DE76', '#A8CB5A'], turn: 0, grapes: 0, gr: '#A9BE62', canes: .85, label: 'first grass' },
-  { name: 'August', tint: '#2F6B2A', sky0: '#FFFFFF', sky1: '#EEE5CF', hill: '#C9D2DB', soil0: '#DCE2CC', soil1: '#C5D0AC', path: '#E7E1CF', grass: 1, gcol: '#7FA14A', leaves: 1, lsz: 1, pal: ['#557A35', '#6A8C40', '#4A6E2E', '#7E9C4E', '#3E5F27'], turn: 0, grapes: .5, gr: '#9EBB55', canes: 0, label: 'grass' },
-  { name: 'September', tint: '#6B4A7E', sky0: '#FBF7EF', sky1: '#EADFC8', hill: '#CFCFC9', soil0: '#D8D6B8', soil1: '#C2BE94', path: '#E5DCC4', grass: .8, gcol: '#A1A05A', leaves: .9, lsz: 1, pal: ['#6A8638', '#7E9C4E', '#5F7A30', '#8C9A44', '#557A35'], turn: .22, grapes: 1, gr: '#3D3B5C', canes: 0, label: 'dry grass' },
-];
-const pal = (s, i) => s.pal[i % s.pal.length];
-
-// defs: gradients we recolour, and the leaf shape
-const defs = el('defs', {});
-const lg = (id, y1, y2) => { const g = el('linearGradient', { id, x1: 0, y1, x2: 0, y2, gradientUnits: 'userSpaceOnUse' }, defs); return [el('stop', { offset: 0 }, g), el('stop', { offset: 1 }, g)]; };
-const skyS = lg('sky', 0, VY), soilS = lg('soil', VY, 900);
-el('path', { id: 'lf', d: 'M0,-1 C.35,-.95 .55,-.6 .95,-.55 C.75,-.2 1,.15 .7,.45 C.45,.4 .3,.75 0,1 C-.3,.75 -.45,.4 -.7,.45 C-1,.15 -.75,-.2 -.95,-.55 C-.55,-.6 -.35,-.95 0,-1Z' }, defs);
-
-el('rect', { width: 1600, height: VY, fill: 'url(#sky)' });
-const hill = el('path', { d: `M0,${VY} L0,430 L120,416 L260,428 L380,410 L520,432 L640,422 L${VX},${VY - 4} L960,424 L1090,414 L1230,430 L1370,412 L1500,426 L1600,418 L1600,${VY}Z`, opacity: .8 });
-el('rect', { y: VY, width: 1600, height: 900 - VY, fill: 'url(#soil)' });
-const path = el('polygon', { points: `360,900 1240,900 ${VX + 8},${VY} ${VX - 8},${VY}`, opacity: .9 });
-// mud puddles and wheel ruts, visible when there is no grass
-const mud = el('g', {});
-for (let i = 0; i < 16; i++) { const y = lerp(VY + 40, 890, Math.pow(rnd(), .7)), k = (y - VY) / (900 - VY), x = VX + (rnd() - .5) * 900 * k; el('ellipse', { cx: f1(x), cy: f1(y), rx: f1(30 + 120 * k * rnd()), ry: f1(2 + 9 * k), fill: '#5E4A36', opacity: .45 }, mud); }
-[-1, 1].forEach((d) => el('polygon', { points: `${VX + d * 2},${VY} ${VX + d * 300 - 26},900 ${VX + d * 300 + 26},900`, fill: '#6D5840', opacity: .35 }, mud));
-// grass tufts in perspective, on the verges and between the ruts
-const tufts = [];
-const grassG = el('g', { fill: 'none', 'stroke-linecap': 'round' });
-for (let i = 0; i < 260; i++) {
-  const y = lerp(VY + 6, 900, Math.pow(rnd(), .85)), k = (y - VY) / (900 - VY), side = rnd();
-  const x = side < .5 ? VX - (220 + rnd() * 700) * k * 1.6 : side < .85 ? VX + (220 + rnd() * 700) * k * 1.6 : VX + (rnd() - .5) * 360 * k;
-  const p = el('path', { 'stroke-width': f1(1 + 2.5 * k) }, grassG);
-  tufts.push({ p, x, y, h: (8 + 36 * rnd()) * (0.25 + k), lean: (rnd() - .5) * 14 * k, u: rnd() });
-}
-
-// rows: left and right, trunks spaced geometrically towards the vanishing point
-const rows = [
-  { side: -1, top: 40, cord: 600, gr: 760, q: .86, n: 30 },
-  { side: 1, top: 40, cord: 600, gr: 760, q: .86, n: 30 },
-];
-const edge = (r) => (r.side < 0 ? 0 : 1600);
-const band = (r, x) => { const f = r.side < 0 ? x / VX : (1600 - x) / (1600 - VX); return { t: lerp(r.top, VY, f), c: lerp(r.cord, VY, f), g: lerp(r.gr, VY, f) }; };
-const xs = (r, k) => (r.side < 0 ? VX * (1 - Math.pow(r.q, k)) : VX + (1600 - VX) * Math.pow(r.q, k));
-const wiresG = el('g', { stroke: '#2A2F34', 'stroke-opacity': .28 });
-const canopyBack = el('g', {});
-const canesG = el('g', { fill: 'none', stroke: '#7A5E45', 'stroke-linecap': 'round' });
-const leafG = el('g', {}), grapeG = el('g', {}), trunkG = el('g', {}), poleG = el('g', {}), ringG = el('g', {});
-const leaves = [], clusters = [], backs = [];
-rows.forEach((r) => {
-  const e = edge(r), b0 = band(r, e);
-  [0.08, 0.36, 0.62].forEach((p) => el('line', { x1: e, y1: f1(lerp(b0.t, b0.c, p) + 40), x2: VX, y2: VY, 'stroke-width': 1.4 }, wiresG));
-  el('line', { x1: e, y1: f1(b0.c), x2: VX, y2: VY, 'stroke-width': 2 }, wiresG);
-  backs.push(el('polygon', { points: `${e},${f1(b0.t + 60)} ${VX},${VY} ${e},${f1(b0.c + 20)}` }, canopyBack));
-  for (let k = r.n - 1; k >= 0; k--) {
-    const x = xs(r, k), b = band(r, x), h = b.g - b.t, span = xs(r, k + 1) - x;
-    // trunk from ground to cordon, slightly crooked; pole every sixth stake
-    const tw = Math.max(1, h * .016);
-    el('path', { d: `M${f1(x)},${f1(b.g)} C${f1(x - tw)},${f1(lerp(b.g, b.c, .4))} ${f1(x + tw)},${f1(lerp(b.g, b.c, .7))} ${f1(x)},${f1(b.c)}`, stroke: '#4A3F33', 'stroke-width': f1(tw * 1.6), fill: 'none', 'stroke-linecap': 'round' }, trunkG);
-    if (k % 6 === 0) el('line', { x1: f1(x + span * .02), y1: f1(b.t - h * .05), x2: f1(x + span * .02), y2: f1(b.g + h * .01), stroke: '#15181B', 'stroke-width': f1(Math.max(1.4, h * .024)) }, poleG);
-    if (k < 7) { const ring = el('ellipse', { cx: f1(x), cy: f1(b.g), rx: f1(h * .07), ry: f1(h * .022), fill: 'none', stroke: '#C6F432', 'stroke-width': f1(Math.max(2, h * .009)), class: 'ring' }, ringG); el('ellipse', { cx: f1(x), cy: f1(b.g), rx: f1(h * .03), ry: f1(h * .01), fill: '#C6F432', stroke: '#15181B', 'stroke-width': f1(Math.max(1, h * .003)) }, ringG); ring.style.animationDelay = (k * .3 + (r.side > 0 ? .15 : 0)) + 's'; }
-    // winter canes rising from the cordon
-    for (let c = 0; c < 3; c++) { const cx = x + span * (.2 + c * .3), cb = band(r, cx), ch = cb.g - cb.t; el('path', { d: `M${f1(cx)},${f1(cb.c)} q${f1((rnd() - .5) * ch * .08)},${f1(-ch * .25)} ${f1((rnd() - .5) * ch * .12)},${f1(-ch * (.38 + rnd() * .2))}`, 'stroke-width': f1(Math.max(.6, ch * .006)) }, canesG); }
-    // leaves for this stretch; each has its own threshold so the count grows and falls
-    const nl = Math.max(4, Math.round(26 * Math.min(1, h / 500) + 6));
-    for (let i = 0; i < nl; i++) {
-      const lx = x + span * rnd(), bb = band(r, lx), hh = bb.g - bb.t;
-      const ly = lerp(bb.t + hh * .04, bb.c + hh * .02, Math.pow(rnd(), .75));
-      const u = el('use', { href: '#lf' }, leafG);
-      leaves.push({ u, x: lx, y: ly, s: hh * (.05 + rnd() * .035), rot: Math.round(rnd() * 360), ci: Math.floor(rnd() * 5), th: rnd(), w: rnd() });
-    }
-    // grape clusters hanging just under the cordon
-    const nc = rnd() < .2 ? 0 : 1 + Math.floor(rnd() * 2);
-    for (let c = 0; c < nc; c++) {
-      const cx = x + span * (.2 + rnd() * .6), cb = band(r, cx), sc = (cb.g - cb.t) * .0026;
-      const g = el('g', { transform: `translate(${f1(cx)} ${f1(cb.c + (cb.g - cb.c) * .08)})` }, grapeG), inner = el('g', {}, g);
-      [[0, 0], [-6, 5], [6, 5], [-9, 0], [9, 0], [0, 10], [-5, 15], [5, 15], [0, 20], [-3, 25], [3, 25], [0, 30]].forEach(([gx, gy]) => el('circle', { cx: gx * 1.4, cy: gy * 1.3, r: 6.2 }, inner));
-      clusters.push({ inner, sc, th: rnd() });
-    }
-  }
-});
-// labels on the nearest pole and trunk
-const lab = (x, y, text) => { const g = el('g', {}); el('rect', { x, y, width: text.length * 11.5 + 22, height: 34, rx: 4, fill: '#15181B' }, g); el('text', { x: x + 11, y: y + 23, fill: '#C6F432', 'font-family': 'IBM Plex Mono, monospace', 'font-size': 18, 'font-weight': 500, 'letter-spacing': 1 }, g).textContent = text; };
-const rl = rows[1], pX = xs(rl, 6), pB = band(rl, pX), tX = xs(rl, 2), tB = band(rl, tX);
-const pointer = (x1, y1, x2, y2) => el('line', { x1, y1, x2, y2, stroke: '#15181B', 'stroke-width': 2 });
-pointer(pX, pB.t + 40, pX - 40, pB.t + 40); lab(pX - 40 - 186, pB.t + 23, 'POLE · FIXED');
-pointer(tX, lerp(tB.c, tB.g, .5), tX - 40, lerp(tB.c, tB.g, .5)); lab(tX - 40 - 209, lerp(tB.c, tB.g, .5) - 17, 'TRUNK · FIXED');
-
-// render one moment: m in [0,4) is the position in the year; most of each month holds, then morphs
-const ease = (t) => t * t * (3 - 2 * t);
-const ticks = [...document.querySelectorAll('#pb-ticks button')];
-let lastT = -1, lastI = -1;
-function render(m) {
-  const i = Math.floor(m) % 4, j = (i + 1) % 4, f = m - Math.floor(m), t = ease(clamp((f - .55) / .45));
-  ticks.forEach((b, k) => { b.querySelector('b').style.width = (k < i ? 100 : k === i ? f * 100 : 0) + '%'; });
-  if (t === lastT && i === lastI) return; lastT = t; lastI = i;
-  const A = K[i], B = K[j], L = (k) => lerp(A[k], B[k], t), C = (k) => mix(A[k], B[k], t);
-  skyS[0].setAttribute('stop-color', C('sky0')); skyS[1].setAttribute('stop-color', C('sky1'));
-  soilS[0].setAttribute('stop-color', C('soil0')); soilS[1].setAttribute('stop-color', C('soil1'));
-  hill.setAttribute('fill', C('hill')); path.setAttribute('fill', C('path'));
-  const grass = L('grass'), gcol = C('gcol');
-  mud.setAttribute('opacity', f1(1 - grass));
-  tufts.forEach((b) => { const k = clamp((grass - b.u * .9) * 3), h = b.h * k; b.p.setAttribute('d', k > .02 ? `M${f1(b.x)},${f1(b.y)} q${f1(b.lean * .3)},${f1(-h * .6)} ${f1(b.lean)},${f1(-h)} M${f1(b.x)},${f1(b.y)} q${f1(-b.lean * .2 - h * .1)},${f1(-h * .4)} ${f1(-h * .3)},${f1(-h * .75)}` : ''); b.p.setAttribute('stroke', gcol); });
-  canesG.setAttribute('opacity', f1(L('canes')));
-  const dens = L('leaves'), size = L('lsz'), turn = L('turn');
-  backs.forEach((p) => { p.setAttribute('fill', mix(pal(A, 4), pal(B, 4), t)); p.setAttribute('opacity', f1(clamp((dens - .3) * 1.6))); });
-  let shown = 0;
-  leaves.forEach((l) => {
-    const k = clamp((dens - l.th) * 6);
-    if (k < .02) { l.u.setAttribute('display', 'none'); return; }
-    if (k > .2) shown++;
-    l.u.removeAttribute('display');
-    l.u.setAttribute('transform', `translate(${f1(l.x)} ${f1(l.y + (1 - k) * l.s)}) rotate(${l.rot}) scale(${(l.s * k * size).toFixed(2)})`);
-    let col = mix(pal(A, l.ci), pal(B, l.ci), t);
-    if (turn > 0 && l.w < turn * 1.3) col = mix(col, l.w < turn * .5 ? '#B5452E' : '#D9A93A', clamp(turn * 1.7));
-    l.u.setAttribute('fill', col);
-  });
-  const g = L('grapes'), gc = C('gr');
-  clusters.forEach((c) => { const k = clamp((g - c.th * .4) * 2); c.inner.setAttribute('transform', `scale(${(c.sc * k).toFixed(3)})`); c.inner.setAttribute('fill', gc); });
-  const cur = t < .5 ? A : B, idx = t < .5 ? i : j;
-  document.getElementById('pb-month').textContent = cur.name;
-  secEl.style.setProperty('--season', mix(A.tint, B.tint, t));
-  document.getElementById('pb-r-ground').textContent = cur.label;
-  document.getElementById('pb-r-leaves').textContent = shown;
-  document.getElementById('pb-r-grapes').textContent = g < .05 ? 'none' : g < .75 ? 'green' : 'ripe';
-  ticks.forEach((b, k) => b.querySelector('.pb-tag').classList.toggle('on', k === idx));
-}
-const MONTH_MS = 3400, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-let start = performance.now(), offset = 0, pos = 0;
-ticks.forEach((b, k) => b.addEventListener('click', () => { offset = k; pos = k; start = performance.now(); if (reduce) render(k + .3); }));
-if (reduce) render(2.3);
-else {
-  // run only while the section is on screen; resume where it left off
-  let on = false, raf = 0;
-  const loop = (now) => { pos = (offset + Math.max(0, now - start) / MONTH_MS) % 4; render(pos); if (on) raf = requestAnimationFrame(loop); };
-  render(0);
-  new IntersectionObserver(([e]) => { if (e.isIntersecting && !on) { on = true; offset = pos; start = performance.now(); raf = requestAnimationFrame(loop); } else if (!e.isIntersecting) { on = false; cancelAnimationFrame(raf); } }).observe(secEl);
-}
+  import '../scripts/vine.js';
+  const root = document.getElementById('problem');
+  if (root) (window as any).Vine.mount(root, { labels: false, style: 'botanical', monthMs: 3600 });
 </script>
