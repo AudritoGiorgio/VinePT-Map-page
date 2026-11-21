@@ -4,16 +4,16 @@
 ---
 <section id="problem" class="section pb bg-chalk text-graphite">
   <div class="wrap">
-    <span class="eyebrow text-steel-dim" data-reveal>The problem</span>
     <div class="pb-grid">
-      <div data-reveal>
+      <div class="pb-text" data-reveal>
+        <span class="eyebrow text-steel-dim">The problem</span>
         <h2 class="pb-h">Every season looks <span class="chg">different.</span></h2>
-        <p class="pb-sub">Bare canes in February, a wall of leaves by July, ripe grapes in September, leaf litter in November. A map built on what grows expires with the season. Only the poles and trunks stay.</p>
+        <p class="pb-sub">A map built on what grows expires with the season. Only the poles and trunks stay.</p>
         <ol class="pb-list" data-list aria-label="Jump to a month"></ol>
       </div>
       <div class="pb-scene" data-reveal>
         <svg data-scene preserveAspectRatio="xMidYMid slice" role="img" aria-label="A vine row from inside the inter-row, February to November: mud turns to tall grass, shoots grow and carry leaves, grapes flower, swell, ripen and are harvested, leaves turn and fall, under sun, cloud and wind. The poles and trunks never move."></svg>
-        <span class="pb-month" data-month>February</span>
+        <span class="pb-month pb-tag" data-month>February</span>
         <span class="pb-stay pb-tag"><i></i>Poles &amp; trunks stay put</span>
       </div>
     </div>
@@ -21,38 +21,40 @@
 </section>
 
 <style is:global>
-  #problem { --ink: #15181B; --steel-dim: #5E676C; --body: #3A4146; --chalk: #F4F2EE; --chalk-2: #E8E5DF; --lime: #C6F432; --lime-dk: #8DB21A; }
+  #problem { --ink: #15181B; --steel-dim: #5E676C; --body: #3A4146; --chalk: #F4F2EE; --chalk-2: #E8E5DF; --lime: #C6F432; --lime-dk: #8DB21A; padding-block: clamp(48px, 9svh, 112px); }
   #problem .tag, .pb-tag { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--steel-dim); }
-  .pb-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(24px, 4vw, 64px); align-items: center; margin-top: 12px; }
+  /* Text column on a 5/12 track, image on 7/12, a wide gutter between them; both start on the same top line. */
+  .pb-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(32px, 6vw, 112px); align-items: stretch; }
   .pb-grid > * { min-width: 0; }
-  .pb-h { margin: 0; font-weight: 600; letter-spacing: -.035em; line-height: 1; text-wrap: balance; font-size: clamp(40px, min(5.4vw, 8.6svh), 88px); max-width: 10ch; }
+  .pb-h { margin: clamp(14px, 2.4svh, 24px) 0 0; font-weight: 600; letter-spacing: -.035em; line-height: 1.02; text-wrap: balance; font-size: clamp(34px, min(4.2vw, 6.6svh), 64px); max-width: 11ch; }
   .pb-h .chg { color: var(--season, var(--ink)); transition: color .3s; }
-  .pb-sub { margin-top: 12px; font-size: 15px; line-height: 1.5; color: var(--body); max-width: 42ch; }
-  .pb-list { list-style: none; margin: clamp(12px, 2.6svh, 26px) 0 0; padding: 0; display: grid; border-top: 1px solid var(--chalk-2); }
-  .pb-list li { position: relative; display: grid; grid-template-columns: 4ch minmax(0, 1fr); gap: 14px; align-items: baseline; padding: clamp(3px, .8svh, 9px) 0; border-bottom: 1px solid var(--chalk-2); cursor: pointer; color: var(--steel-dim); transition: color .3s; font-size: clamp(13.5px, 1.85svh, 16px); }
+  .pb-sub { margin-top: clamp(12px, 2svh, 20px); font-size: 15px; line-height: 1.55; color: var(--body); max-width: 38ch; }
+  .pb-list { list-style: none; margin: clamp(18px, 3.4svh, 34px) 0 0; padding: 0; display: grid; border-top: 1px solid var(--chalk-2); max-width: 40ch; }
+  .pb-list li { position: relative; display: grid; grid-template-columns: 4ch minmax(0, 1fr); gap: 14px; align-items: baseline; padding: clamp(3px, .6svh, 6px) 0; border-bottom: 1px solid var(--chalk-2); cursor: pointer; color: var(--steel-dim); transition: color .3s; font-size: 13.5px; }
   .pb-list li:focus-visible { outline: 2px solid var(--lime-dk); outline-offset: 2px; }
   .pb-list li.on { color: var(--ink); }
   #problem .pb-list li.on .m { color: var(--season); }
   .pb-list .prog { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--season, var(--ink)); }
-  .pb-scene { position: relative; overflow: hidden; background: #fff; aspect-ratio: 1 / 1; max-height: 76svh; width: 100%; border-radius: 6px; border: 1px solid var(--chalk-2); justify-self: end; }
+  .pb-scene { position: relative; overflow: hidden; background: #fff; width: 100%; height: 100%; min-height: 320px; max-height: 64svh; align-self: center; border-radius: 6px; border: 1px solid var(--chalk-2); }
   .pb-scene svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .pb-month { position: absolute; left: 14px; top: 10px; font-weight: 600; letter-spacing: -.03em; font-size: clamp(24px, 4svh, 40px); text-shadow: 0 1px 0 rgba(255,255,255,.7); color: var(--ink); }
+  #problem .pb-month { position: absolute; left: 12px; top: 12px; padding: 5px 9px; border-radius: 999px; background: rgba(244,242,238,.9); color: var(--ink); }
   .pb-stay { position: absolute; left: 12px; bottom: 12px; display: inline-flex; gap: 8px; align-items: center; background: var(--ink); color: var(--chalk) !important; padding: 6px 11px; border-radius: 999px; }
   .pb-stay i { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); animation: pb-pulse 1.6s infinite; }
   @keyframes pb-pulse { 0% { box-shadow: 0 0 0 0 rgba(198,244,50,.7); } 100% { box-shadow: 0 0 0 10px rgba(198,244,50,0); } }
   #problem .ring { transform-box: fill-box; transform-origin: center; animation: pb-ring 2.4s ease-out infinite; }
   @keyframes pb-ring { 0% { transform: scale(.6); opacity: .9; } 70%, 100% { transform: scale(2.4); opacity: 0; } }
+  @media (max-width: 1023px) and (min-width: 761px) { .pb-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
   @media (max-width: 760px) {
-    .pb-grid { grid-template-columns: 1fr; gap: 14px; }
-    .pb-h { font-size: clamp(36px, 10.4vw, 44px); max-width: none; }
+    #problem { padding-block: clamp(44px, 8svh, 72px); }
+    .pb-grid { grid-template-columns: 1fr; row-gap: 18px; }
+    .pb-h { font-size: clamp(32px, 9.4vw, 40px); max-width: none; }
     .pb-sub { font-size: 14px; }
-    .pb-list { display: flex; overflow-x: auto; gap: 6px; border: 0; scrollbar-width: none; margin-top: 12px; }
+    .pb-list { display: flex; overflow-x: auto; gap: 6px; border: 0; scrollbar-width: none; margin-top: 16px; max-width: none; }
     .pb-list li { grid-template-columns: auto; border: 1px solid var(--chalk-2); border-radius: 999px; padding: 6px 10px; flex: none; }
     .pb-list li .d, .pb-list .prog { display: none; }
     .pb-list li.on { background: var(--season); border-color: var(--season); }
     #problem .pb-list li.on .m { color: #fff; }
-    .pb-scene { max-height: 50svh; justify-self: stretch; }
-    .pb-month { font-size: 24px; }
+    .pb-scene { aspect-ratio: 4 / 3; height: auto; min-height: 0; max-height: 44svh; }
   }
   @media (prefers-reduced-motion: reduce) { .pb-stay i, #problem .ring { animation: none; } }
 </style>
