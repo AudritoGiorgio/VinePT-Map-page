@@ -28,9 +28,9 @@
   .pb-grid > * { min-width: 0; }
   .pb-h { margin: clamp(14px, 2.4svh, 24px) 0 0; font-weight: 600; letter-spacing: -.035em; line-height: 1.02; text-wrap: balance; font-size: clamp(34px, min(4.2vw, 6.6svh), 64px); max-width: 11ch; }
   .pb-h .chg { color: var(--season, var(--ink)); transition: color .3s; }
-  .pb-sub { margin-top: clamp(12px, 2svh, 20px); font-size: 15px; line-height: 1.55; color: var(--body); max-width: 38ch; }
-  .pb-list { list-style: none; margin: clamp(18px, 3.4svh, 34px) 0 0; padding: 0; display: grid; border-top: 1px solid var(--chalk-2); max-width: 40ch; }
-  .pb-list li { position: relative; display: grid; grid-template-columns: 4ch minmax(0, 1fr); gap: 14px; align-items: baseline; padding: clamp(3px, .6svh, 6px) 0; border-bottom: 1px solid var(--chalk-2); cursor: pointer; color: var(--steel-dim); transition: color .3s; font-size: 13.5px; }
+  .pb-sub { margin-top: clamp(12px, 2svh, 20px); font-size: clamp(15px, 1.05vw, 17px); line-height: 1.55; color: var(--body); max-width: 44ch; }
+  .pb-list { list-style: none; margin: clamp(18px, 3.4svh, 34px) 0 0; padding: 0; display: grid; border-top: 1px solid var(--chalk-2); }
+  .pb-list li { position: relative; display: grid; grid-template-columns: 5ch minmax(0, 1fr); gap: 14px; align-items: baseline; padding: clamp(3px, .6svh, 6px) 0; border-bottom: 1px solid var(--chalk-2); cursor: pointer; color: var(--steel-dim); transition: color .3s; font-size: clamp(13.5px, .95vw, 15.5px); }
   .pb-list li:focus-visible { outline: 2px solid var(--lime-dk); outline-offset: 2px; }
   .pb-list li.on { color: var(--ink); }
   #problem .pb-list li.on .m { color: var(--season); }
