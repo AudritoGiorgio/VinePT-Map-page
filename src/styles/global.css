@@ -9,6 +9,7 @@
   p { text-wrap: pretty; }
   ::selection { background: #C6F432; color: #15181B; }
   :focus-visible { outline: 2px solid #C6F432; outline-offset: 3px; }
+  @media (min-width: 1024px) { html { scroll-padding-top: 0; scroll-snap-type: y proximity; } }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 }
 
@@ -19,6 +20,15 @@
   @media (min-width: 1024px) { .hero-copy { padding-left: calc(max(0px, (100vw - 1760px) / 2) + clamp(48px, 5vw, 96px)); } }
   /* Sections are sized to fit one screen: vertical rhythm follows the viewport height. */
   .section { padding-block: clamp(36px, 6svh, 80px); }
+  /* Desktop: every section fills exactly one screen, content centred, so the next section never peeks in. */
+  @media (min-width: 1024px) {
+    main > section { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: start; }
+    main > section > * { width: 100%; }
+    main > section.section { padding-block: max(72px, 6svh) clamp(24px, 5svh, 80px); }
+    #field { height: 100svh; }
+    #horizon { justify-content: flex-start; padding-top: max(96px, 10svh); }
+    #horizon > figure { flex: 1 1 auto; height: auto; min-height: 36svh; }
+  }
   .light { @apply bg-chalk text-graphite; }
   .font-display { font-weight: 600; letter-spacing: -0.03em; }
   .eyebrow { @apply font-mono text-[12px] font-medium uppercase tracking-[.08em]; }
