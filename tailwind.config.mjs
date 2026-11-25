@@ -17,7 +17,7 @@ export default {
         sans: ['"IBM Plex Sans"', '"Helvetica Neue"', 'Arial', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'ui-monospace', '"SF Mono"', 'Menlo', 'Consolas', 'monospace'],
       },
-      maxWidth: { page: '1280px' },
+      maxWidth: { page: '1760px' },
     },
   },
   plugins: [],

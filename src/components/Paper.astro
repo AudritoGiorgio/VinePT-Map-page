@@ -1,13 +1,45 @@
 ---
 import { authors, conference, links, paper } from '../data/site';
 const authorList = authors.map((a) => `${a.given} ${a.family}`).join(', ');
-const bibAuthors = authors.map((a) => `${a.family}, ${a.given}`).join(' and ');
-const bib = `@inproceedings{${paper.key},
-  title     = {${paper.title}},
-  author    = {${bibAuthors}},
-  booktitle = {${paper.booktitle}},
-  year      = {${paper.year}}
-}`;
+const ini = (g: string) => g.split(/[\s-]+/).map((p) => p[0] + '.').join(' ');
+const t = paper.title, bt = paper.booktitle, y = paper.year;
+const doi = paper.doi, pages = paper.pages, link = doi ? `https://doi.org/${doi}` : paper.url;
+const n = authors.length;
+const listJoin = (xs: string[], last: string) => (xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + last + xs[xs.length - 1]);
+
+// One citation per format, all built from src/data/site.ts.
+const formats: [string, string][] = [
+  ['BibTeX', [
+    `@inproceedings{${paper.key},`,
+    `  title     = {${t}},`,
+    `  author    = {${authors.map((a) => `${a.family}, ${a.given}`).join(' and ')}},`,
+    `  booktitle = {${bt}},`,
+    `  year      = {${y}},`,
+    ...(pages ? [`  pages     = {${pages.replace('-', '--')}},`] : []),
+    `  publisher = {${paper.publisher}},`,
+    `  address   = {${paper.location}},`,
+    ...(doi ? [`  doi       = {${doi}},`] : []),
+    `  url       = {${paper.url}}`,
+    `}`,
+  ].join('\n')],
+  ['IEEE', `${listJoin(authors.map((a) => `${ini(a.given)} ${a.family}`), n > 2 ? ', and ' : ' and ')}, "${t}," in ${bt}, ${paper.location}, ${y}${pages ? `, pp. ${pages}` : ''}${doi ? `, doi: ${doi}` : ''}.`],
+  ['APA', `${listJoin(authors.map((a) => `${a.family}, ${ini(a.given)}`), ', & ')} (${y}). ${t}. In ${bt}${pages ? ` (pp. ${pages})` : ''}. ${paper.publisher}. ${link}`],
+  ['MLA', `${authors[0].family}, ${authors[0].given}${n > 2 ? ', et al' : n === 2 ? `, and ${authors[1].given} ${authors[1].family}` : ''}. "${t}." ${bt}, ${paper.publisher}, ${y}${pages ? `, pp. ${pages}` : ''}${doi ? `, https://doi.org/${doi}` : ''}.`],
+  ['Chicago', `${authors[0].family}, ${authors[0].given}${n > 1 ? ', ' + listJoin(authors.slice(1).map((a) => `${a.given} ${a.family}`), ', and ') : ''}. "${t}." In ${bt}${pages ? `, ${pages}` : ''}. ${paper.location.replace(', USA', '')}: ${paper.publisher}, ${y}. ${link}.`],
+  ['RIS', [
+    'TY  - CONF',
+    `TI  - ${t}`,
+    ...authors.map((a) => `AU  - ${a.family}, ${a.given}`),
+    `T2  - ${bt}`,
+    `PY  - ${y}`,
+    ...(pages ? [`SP  - ${pages.split('-')[0]}`, `EP  - ${pages.split('-')[1] ?? ''}`] : []),
+    `PB  - ${paper.publisher}`,
+    `CY  - ${paper.location}`,
+    ...(doi ? [`DO  - ${doi}`] : []),
+    `UR  - ${paper.url}`,
+    'ER  - ',
+  ].join('\n')],
+];
 ---
 <section id="paper" class="light section grid-paper border-t border-graphite/10">
   <div class="wrap grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-14">
@@ -15,7 +47,7 @@ const bib = `@inproceedings{${paper.key},
       <span class="eyebrow text-steel-dim">Paper</span>
       <!-- Survey-sheet title block -->
       <dl class="mt-5 grid w-full max-w-[460px] grid-cols-3 border border-graphite bg-chalk">
-        {[['Venue', conference.short], ['City', conference.city], ['Status', 'Accepted']].map(([k, v], i) => (
+        {[['Venue', conference.short], ['City', conference.city], ['Status', 'Published']].map(([k, v], i) => (
           <div class={`px-3.5 py-3 ${i < 2 ? 'border-r border-graphite' : ''}`}><dt class="tag text-steel-dim">{k}</dt><dd class="mt-1 text-[15px] font-semibold">{v}</dd></div>
         ))}
         <div class="col-span-3 border-t border-graphite px-3.5 py-2.5 text-[13px] leading-snug text-steel-dim">{conference.full}</div>
@@ -23,22 +55,38 @@ const bib = `@inproceedings{${paper.key},
       <h3 class="mt-5 font-display text-[21px] leading-[1.2] md:text-[clamp(24px,3.6svh,30px)]">{paper.title}</h3>
       <p class="mt-2 text-[14px] text-steel-dim">{authorList}</p>
       <div class="mt-5 flex flex-wrap gap-3">
-        <a class="btn btn-dark btn-round" href={links.arxiv} target="_blank" rel="noopener">arXiv 2603.05070 <span aria-hidden="true">↗</span></a>
-        <a class="btn btn-ghost-light btn-round bg-chalk" href={links.pdf} target="_blank" rel="noopener">PDF</a>
+        <a class="btn btn-dark btn-round" href={links.ieee} target="_blank" rel="noopener">IEEE Xplore <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-ghost-light btn-round bg-chalk" href={links.arxiv} target="_blank" rel="noopener">arXiv preprint</a>
       </div>
     </div>
     <details id="bib-box" class="exp min-w-0 rounded bg-graphite text-[#D7DADB]" data-reveal>
       <summary class="flex items-center justify-between gap-3 px-4 py-2.5 text-[12px] text-steel">
-        <span class="inline-flex items-center gap-2"><span class="plus font-mono text-[16px] text-chalk" aria-hidden="true">+</span>BibTeX</span>
+        <span class="inline-flex items-center gap-2"><span class="plus font-mono text-[16px] text-chalk" aria-hidden="true">+</span>Cite this paper</span>
         <button type="button" id="copy-bib" class="rounded-full border border-steel-dim px-3 py-1 text-[12px] font-semibold text-chalk hover:border-chalk">Copy</button>
       </summary>
-      <pre id="bib" class="whitespace-pre-wrap break-words border-t border-graphite-3 p-4 font-mono text-[12.5px] leading-[1.65] md:p-5"><code>{bib}</code></pre>
+      <div class="border-t border-graphite-3">
+        <div class="flex flex-wrap gap-1 px-3 pt-3 md:px-4" role="tablist" aria-label="Citation format">
+          {formats.map(([name], i) => (
+            <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-fmt={i} class="cite-tab rounded-full px-3 py-1 font-mono text-[11.5px] uppercase tracking-[.06em] text-steel hover:text-chalk aria-selected:bg-lime aria-selected:text-graphite">{name}</button>
+          ))}
+        </div>
+        <pre id="bib" role="tabpanel" aria-live="polite" class="whitespace-pre-wrap break-words p-4 font-mono text-[12.5px] leading-[1.65] md:p-5"><code>{formats[0][1]}</code></pre>
+      </div>
+      <script type="application/json" id="cite-data" set:html={JSON.stringify(formats.map((f) => f[1]))}></script>
     </details>
   </div>
 </section>
 
 <script>
-  // BibTeX starts open beside the title on wide screens and closed on phones.
+  // The citation box starts open beside the title on wide screens and closed on phones.
   const box = document.getElementById('bib-box') as HTMLDetailsElement | null;
   if (box && window.matchMedia('(min-width: 1024px)').matches) box.open = true;
+  // Format tabs swap the text in #bib; the Copy button copies whatever is shown.
+  const data: string[] = JSON.parse(document.getElementById('cite-data')?.textContent || '[]');
+  const code = document.querySelector('#bib code');
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.cite-tab'));
+  tabs.forEach((tab) => tab.addEventListener('click', () => {
+    tabs.forEach((o) => o.setAttribute('aria-selected', String(o === tab)));
+    if (code) code.textContent = data[Number(tab.dataset.fmt)] ?? '';
+  }));
 </script>

@@ -5,6 +5,7 @@ export const links = {
   // Code and dataset share the repository until the release. Change `dataset` if it gets its own host.
   code: 'https://github.com/PIC4SeR/VinePT-Map',
   dataset: 'https://github.com/PIC4SeR/VinePT-Map',
+  ieee: 'https://ieeexplore.ieee.org/document/11776151',
   arxiv: 'https://arxiv.org/abs/2603.05070',
   pdf: 'https://arxiv.org/pdf/2603.05070',
   pic4ser: 'https://pic4ser.polito.it/',
@@ -40,7 +41,12 @@ export const paper = {
   key: 'audrito2026vineptmap',
   booktitle: '2026 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)',
   year: 2026,
-  // add when the proceedings are out: pages: '...', doi: '10....',
+  publisher: 'IEEE',
+  location: 'Pittsburgh, PA, USA',
+  url: 'https://ieeexplore.ieee.org/document/11776151',
+  // Fill in from IEEE Xplore's "Cite This" panel; every citation format picks them up.
+  pages: '' as string,
+  doi: '' as string,
 };
 
 // Authors in paper order. Portraits: drop a square image in public/team/<id>.jpg and set `photo`.
